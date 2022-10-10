@@ -11,9 +11,7 @@
 </head>
 <body>
     <header>
-        {% block header %}
-            {% include 'base/header.html'   %}
-        {% endblock %}
+        <h1>Kowabunga Hooker</h1>
     </header>
     <div class="messages">
         {% if messages %}
@@ -23,12 +21,7 @@
         {% endif %}
     </div>
     <main>
-        <h1>Coming Soon</h1>
-        <img src="https://kowabunga-hooker.com/imgs/logo.jpg" alt="Logo">
-        <button>Shop Now</button>
+        
     </main>
-    <footer>
-        {% block footer %} {% include 'base/footer.html' %} {% endblock footer %}
-    </footer>
 </body>
 </html>

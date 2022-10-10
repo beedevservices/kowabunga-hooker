@@ -1,31 +1,38 @@
-.flexcolumn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.flexrow {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
+@import './less/base.less';
 
 body {
     .flexcolumn();
+    width: 95%;
 
     header {
         .flexcolumn();
+        width: 95%;
+
+        .row {
+            .flexrow();
+            width: 95%;
+            justify-content: space-evenly;
+
+            img {
+                max-width: 250px;
+                border-radius: 50%;
+            }
+        }
+        nav {
+            .flexrow();
+            width: 95%;
+            justify-content: space-evenly;
+            font-size: 1.2em;
+            margin: 1em;
+        }
     }
     main {
         .flexcolumn();
+        width: 95%;
     }
     footer {
         .flexcolumn();
-        width: 85%;
+        width: 95%;
 
         h4 {
             .flexrow();
@@ -44,3 +51,5 @@ body {
         }
     }
 }
+
+@import './less/media.less';

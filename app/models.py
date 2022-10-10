@@ -55,3 +55,27 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.CharField(max_length=255)
+    info = models.TextField()
+    category = models.ForeignKey(Category, related_name='theCategory', on_delete=CASCADE)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class Upload(models.Model):
+    img = models.ImageField(upload_to='productImgs', default='logo.jpg')
+    mainImg = models.OneToOneField(Product, unique=True, on_delete=CASCADE)
+    def __str__(self):
+        return f'{self.product.img} Upload'
+
+def create_prod_profile(sender, instance, created, **kwargs):
+    if created:
+        Product.objects.create(products=instance)
+        post_save.connect(create_prod_profile, sender=Product)
+
+class Images(models.Model):
+    img = models.ImageField(upload_to='productImgs', default='logo.jpg')
+    prod = models.ForeignKey(Product, related_name='prodImg', on_delete=CASCADE)
