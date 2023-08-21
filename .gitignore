@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 rsa.md
 general.py
+*keys.py
 
 # C extensions
 *.so
