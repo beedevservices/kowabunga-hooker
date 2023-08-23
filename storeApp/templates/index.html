@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %} {% include 'block/head.html' %} {% endblock head %}
+<body>
+    {% block header %} {% include 'block/header.html' %} {% endblock header %}
+    {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
+    <main>
+        <div class="left">
+            <h2>Select Category</h2>
+            <a href="javascript:void(0);" class="icon" onclick="menu('myCats')"><i class="fa fa-bars"></i></a>
+            <nav id="myCats">
+                <a href="/" class="category">All Products</a>
+            </nav>
+        </div>
+        <div class="right">
+            <h2>All Products</h2>
+        </div>
+    </main>
+    {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
+</body>
+</html>

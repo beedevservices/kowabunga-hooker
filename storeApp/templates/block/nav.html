@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    {% block nav %}
+    <nav>
+        <a href="/cart/">Cart <span>0</span></a>
+        <a href="javascript:void(0);" class="icon" onclick="menu('myLinks')">
+            <i class="fa fa-bars"></i>
+        </a>
+        <nav id="myLinks">
+            <a href="/login/">Login</a>
+        </nav>
+    </nav>
+    {% endblock nav %}
+</body>
+</html>     

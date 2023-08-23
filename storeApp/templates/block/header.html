@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %}
+    <header>
+        <div class="header">
+            <img src="https://images.thehive-services.com/business/KH/logo.jpg" alt="logo">
+            <h1>Kowabunga Hooker</h1>
+        </div>
+        {% block nav %} {% include 'block/nav.html' %} {% endblock nav %}
+    </header>
+    {% endblock head%}
+</html>

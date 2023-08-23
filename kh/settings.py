@@ -72,21 +72,27 @@ WSGI_APPLICATION = 'kh.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         # 'ENGINE':'django.db.backends.mysql',
+#         'NAME': 'craftsnh_kowabunga',
+#         'USER': 'root',
+#         # 'USER': 'craftsnh_hooker',
+#         'PASSWORD': 'HoneyBee#4',
+#         # 'PASSWORD': 'BeeDevKarg',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#         # 'OPTIONS': {'charset': 'utf8mb4'},
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        # 'ENGINE':'django.db.backends.mysql',
-        'NAME': 'craftsnh_kowabunga',
-        'USER': 'root',
-        # 'USER': 'craftsnh_hooker',
-        'PASSWORD': 'HoneyBee#4',
-        # 'PASSWORD': 'BeeDevKarg',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        # 'OPTIONS': {'charset': 'utf8mb4'},
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
