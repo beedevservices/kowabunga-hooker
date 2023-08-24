@@ -6,6 +6,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.apiBase),
+    path('allCustomers/', views.apiAllCustomers),
+    path('allProducts/', views.apiAllProducts),
+    path('test/', views.apiTest),
     path('allOrders-allCustomers/', views.apiAllByCust),
 ]
 if settings.DEBUG:
