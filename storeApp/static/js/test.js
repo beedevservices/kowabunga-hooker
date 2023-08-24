@@ -1,10 +1,16 @@
-function apiTest() {
-    fetch(`http://127.0.0.1:8000/api/allCustomers`)
+let rootUrl = 'http://127.0.0.1:8000/api/'
+let cust = 'allCustomers/'
+let prod = 'allProducts/'
+let ord = 'allOrderNumbers/'
+let inv = 'allInvoiceNumbers/'
+
+console.log(`${rootUrl}${cust}`)
+
+function info() {
+    fetch(`${rootUrl}${cust}`)
     .then(res => res.json())
     .then(data => {
-        console.log('theData', data)
-        // theList = data.customers[0].customer.user
-        // console.log('theList', theList)
+        data = data['customers']
+        console.log(data)
     })
 }
-apiTest()

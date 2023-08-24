@@ -28,6 +28,17 @@ def apiAllCustomers(request):
     }
     return JsonResponse(context, content_type='application/json')
 
+def apiOneCustomer(request, user_id):
+    users = list(User.objects.all().values())
+    profiles = list(Profile.objects.all().values())
+    customer = {}
+    for u in users:
+        if u['id'] == user_id:
+            for p in profiles:
+                if p['user_id'] == user_id:
+                    customer = {'user': u, 'profile': p}
+    return JsonResponse(customer, content_type='application/json')
+
 def apiAllProducts(request):
     categories = list(Category.objects.all().values())
     theProducts = list(Product.objects.all().values())
@@ -43,84 +54,44 @@ def apiAllProducts(request):
     }
     return JsonResponse(context, content_type='application/json')
 
-def apiAllOrders(request):
-    theOrders = list(Order.objects.all().values())
-    theProducts = list(Product.objects.all().values())
+def apiOneProduct(request, prod_id):
     categories = list(Category.objects.all().values())
-    orderNumbers = []
-    orders = []
-    order = {}
-    products = []
+    theProducts = list(Product.objects.all().values())
     product = {}
-    items = []
-    item = {}
     for prod in theProducts:
-        for cat in categories:
-            if cat['id'] == prod['category_id']:
-                product = {'product': prod, 'category': cat}
-        products.append({'product': product})
+        if prod['id'] == prod_id:
+            for cat in categories:
+                if cat['id'] == prod['category_id']:
+                    product = {'product': prod, 'category': cat}
+    return JsonResponse(product, content_type='application/json')
+
+def apiAllOrderNumbers(request):
+    theOrders = list(Order.objects.all().values())
+    orderNumbers = []
     for o in theOrders:
-        print(o['orderNumber'])
         aOrder = o['orderNumber']
         if aOrder not in orderNumbers:
             orderNumbers.append(aOrder)
-    for o in theOrders:
-        for num in orderNumbers:
-            if o['orderNumber'] == num:
-                print('the o', o, 'the num', num)
-                items.append(o['quantity'])
-            order = {num: items}
-        orders.append(order)
     context = {
-        'orders': orders
+        'orderNumbers': orderNumbers
     }
     return JsonResponse(context,content_type='application/json')
-    
 
-def apiAllByCust(request):
-    theOrders = list(Order.objects.all().values())
-    users = list(User.objects.all().values())
-    categories = list(Category.objects.all().values())
-    theProducts = list(Product.objects.all().values())
-    profiles = list(Profile.objects.all().values())
-    invoices = list(Invoice.objects.all().values())
-    # print(orders)
-    ordersByCustomer = []
-    customers = []
-    customer = {}
-    orders = []
-    order = {}
-    products = []
-    product = {}
-    for u in users:
-        for p in profiles:
-            if p['user_id'] == u['id']:
-                customer = {'user': u, 'profile': p}
-        customers.append({'customer': customer})
-    for prod in products:
-        for cat in categories:
-            if cat['id'] == prod['category_id']:
-                product = {'product': prod, 'category': cat}
-        products.append({'product': product})
-    ordersByCustomer.append(customers)
-        # for prod in products:
-        #     if prod['id'] == o['product_id']:
-        #         print(prod)
-        # for u in users:
-        #     if u['id'] == o['customer_id']:
-        #         orders.append(o)
-        #     for p in profiles:
-        #         if p['user_id'] == u['id']:
-        # for o in orders:
-        #     print('o', o['id'], 'u', u['id'])
-        #     if o['customer_id'] == u['id']:
-        #         orders.append(o)
-        # for p in profiles:
-        #     if p['user_id'] == u['id']:
-        #         customer = {'user': u, 'profile': p, 'orders': orders}
-        # customers.append(customer)
-        # ordersByCustomer = {'customers': customers}
+def apiAllInvoiceNumbers(request):
+    theInvoices = list(Invoice.objects.all().values())
+    invoiceNumbers = []
+    for i in theInvoices:
+        oneI = i['orderNumber']
+        if oneI not in invoiceNumbers:
+            invoiceNumbers.append(oneI)
     context = {
-        'ordersByCustomer': ordersByCustomer
+        'invoiceNumbers': invoiceNumbers,
     }
-    return JsonResponse(context, content_type='application/json')
+    return JsonResponse(context,content_type='application/json')
+
+# theOrders = list(Order.objects.all().values())
+# users = list(User.objects.all().values())
+# categories = list(Category.objects.all().values())
+# theProducts = list(Product.objects.all().values())
+# profiles = list(Profile.objects.all().values())
+# invoices = list(Invoice.objects.all().values())

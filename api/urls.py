@@ -7,9 +7,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.apiBase),
     path('allCustomers/', views.apiAllCustomers),
+    path('oneCustomer/<int:user_id>/', views.apiOneCustomer),
     path('allProducts/', views.apiAllProducts),
-    path('allOrders/', views.apiAllOrders),
-    path('allOrders-allCustomers/', views.apiAllByCust),
+    path('oneProduct/<int:prod_id>/', views.apiOneProduct),
+    path('allOrderNumbers/', views.apiAllOrderNumbers),
+    path('allInvoiceNumbers/', views.apiAllInvoiceNumbers),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
