@@ -44,7 +44,11 @@ class Profile(models.Model):
     zip = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=255, blank=True)
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return f'{self.user.firstName} Profile'
+    def address(self):
+        return f'{self.address01} {self.address02} {self.city} {self.state} {self.zip}'
+    def tel(self):
+        return self.phone
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

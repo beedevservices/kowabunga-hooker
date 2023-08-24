@@ -21,3 +21,11 @@ def checkAge(user):
     else:
         isAdult = False
     return isAdult
+
+
+def sendOrderEmail(user):
+    subject = ''
+    message = f''
+    email_from = settings.EMAIL_HOST_ORDER_USER
+    recipient_list = []
+    send_mail(subject, message, email_from, recipient_list)
