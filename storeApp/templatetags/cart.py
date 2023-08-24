@@ -18,7 +18,7 @@ def prodQuantity(prod, cart):
     keys = cart.keys()
     # print(keys)
     for row in keys:
-        if int(row) == prod.id:
+        if int(row) == prod:
             print('quantity filter', cart.get(row))
             return cart.get(row)
     return 0

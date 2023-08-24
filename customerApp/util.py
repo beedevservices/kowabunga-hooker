@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.core.mail import send_mail
 import datetime
+import string
+import random
 
 
 
@@ -29,3 +31,12 @@ def sendOrderEmail(user):
     email_from = settings.EMAIL_HOST_ORDER_USER
     recipient_list = []
     send_mail(subject, message, email_from, recipient_list)
+
+def genOrderCode():
+    N = 4
+    res01 = ''.join(random.choices(string.ascii_letters, k=N))
+    res02 = ''.join(random.choices(string.ascii_letters, k=N))
+    stamp = datetime.date.today()
+    orderconfirm = f'{stamp.year}-{res01}-{stamp.day}-{res02}-{stamp.month}'
+    print(orderconfirm, stamp, res01, res02)
+    return orderconfirm

@@ -6,6 +6,7 @@ from customerApp.util import *
 
 def custOrder(request):
     url = request.session['url']
+    confirm = genOrderCode()
     cart = request.session['cart']
     ids = list(request.session.get('cart').keys())
     products = Product.objects.filter(id__in=ids)
@@ -15,10 +16,9 @@ def custOrder(request):
     phone = profile.tel()
     for prod in products:
         order = Order(customer=User(id=customer),
+                    orderNumber=confirm,
                     product=prod,
                     price=prod.price,
-                    address=address,
-                    phone=phone,
                     quantity=cart.get(str(prod.id)))
         order.save()
         request.session['cart'] = {}

@@ -31,7 +31,7 @@
                     {% if prod.madeToOrder == True %}
                         <h4>Product Made To Order</h4>
                     {% endif %}
-                    {% if prod|inTheCart:request.session.cart %}
+                    {% if prod.id|inTheCart:request.session.cart %}
                         <div class="row">
                             <form action="/add/" method="post">
                                 {% csrf_token %}

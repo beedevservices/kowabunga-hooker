@@ -58,13 +58,27 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 class Order(models.Model):
     quantity = models.IntegerField(default=1)
-    price = models.IntegerField()
+    orderNumber = models.CharField(max_length=255, default='2023-rGCa-24-moNW-8')
+    price = models.IntegerField(null=True, blank=True)
     product = models.ForeignKey(Product, related_name='theProd', on_delete=CASCADE)
     customer = models.ForeignKey(User, related_name='theUser', on_delete=CASCADE)
     date = models.DateField (default=datetime.datetime.today)
+    notes = models.TextField(null=True, blank=True)
     status = models.BooleanField (default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f'{self.customer.firstName} {self.customer.lastName} - {self.orderNumber}'
 
     def placeOrder(self):
         self.save()
+
+class invoice(models.Model):
+    orderNumber = models.CharField(max_length=255)
+    lastName = models.CharField(max_length=255)
+    orderDate = models.DateField (default=datetime.datetime.today)
+    pdf = models.FileField(upload_to='invoices')
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f'{self.lastName} - {self.orderNUmber}'
