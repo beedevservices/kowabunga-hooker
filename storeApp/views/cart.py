@@ -4,6 +4,8 @@ from customerApp.models import *
 
 
 def cart(request):
+    url = '/cart/'
+    request.session['url'] = url
     if 'user_id' not in request.session:
         user = False
         url = '/cart/'
@@ -19,5 +21,6 @@ def cart(request):
             'user': user,
             'cart': cart,
             'products': products,
+            'url': url,
         }
         return render(request, 'cart.html', context)
