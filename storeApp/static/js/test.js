@@ -14,3 +14,4 @@ function info() {
         console.log(data)
     })
 }
+info()

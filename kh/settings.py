@@ -140,6 +140,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 # EMAIL_PORT = 465
 EMAIL_HOST_USER = 'the.kowabunga.hooker@gmail.com'
+# EMAIL_HOST_USER = 'kowabungahooker@gmail.com'
 EMAIL_HOST_PASSWORD = HOST_PASSWORD
 EMAIL_HOST_MAIN_USER = 'kaila@kowabunga-hooker.com'
 EMAIL_HOST_ORDER_USER = 'orders@kowabunga-hooker.com'

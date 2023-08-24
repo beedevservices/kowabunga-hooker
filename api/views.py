@@ -77,6 +77,18 @@ def apiAllOrderNumbers(request):
     }
     return JsonResponse(context,content_type='application/json')
 
+def apiOneOrderNumber(request, orderNum):
+    theOrders = list(Order.objects.all().values())
+    orders = []
+    for o in theOrders:
+        if o['orderNumber'] == orderNum:
+            order = {'order': o}
+            orders.append(order)
+    context = {
+        'orders': orders,
+    }
+    return JsonResponse(context,content_type='application/json')
+
 def apiAllInvoiceNumbers(request):
     theInvoices = list(Invoice.objects.all().values())
     invoiceNumbers = []

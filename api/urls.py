@@ -11,6 +11,7 @@ urlpatterns = [
     path('allProducts/', views.apiAllProducts),
     path('oneProduct/<int:prod_id>/', views.apiOneProduct),
     path('allOrderNumbers/', views.apiAllOrderNumbers),
+    path('oneOrderNumber/<str:orderNum>/', views.apiOneOrderNumber),
     path('allInvoiceNumbers/', views.apiAllInvoiceNumbers),
 ]
 if settings.DEBUG:

@@ -8,9 +8,9 @@ import random
 
 def sendSignupEmail(user):
     subject = 'A Kowabunga Hooker Welcome'
-    message = f'Hi {user.firstName}, thank you for registering for Kowabunga Hooker. I am thrilled you found me and chose to sign up.  Feel free to email me with any questions you might have.  I look forward to your 1st order'
+    message = f'Hi {user.firstName}, thank you for registering for Kowabunga Hooker. I am thrilled you found me and chose to sign up.  Feel free to email me with any questions you might have.  I look forward to hearing from you.'
     email_from = settings.EMAIL_HOST_MAIN_USER
-    recipient_list = [user.email, settings.EMAIL_HOST_MAIN_USER]
+    recipient_list = [user.email, ]
     send_mail( subject, message, email_from, recipient_list )
 
 def checkAge(user):
