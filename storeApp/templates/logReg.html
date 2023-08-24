@@ -7,7 +7,7 @@
     {% block header %} {% include 'block/header.html' %} {% endblock header %}
     {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
     <main>
-        <form action="/customer/login/" method="post" id="login">
+        <form action="/customer/login/" method="post" id="login" class="form">
             {% csrf_token %}
             <h2>Login</h2>
             <section>
@@ -18,9 +18,9 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" placeholder="Password">
             </section>
-            <button>Login</button>
+            <button class="button">Login</button>
         </form>
-        <form action="/customer/reg/" method="post" id="reg">
+        <form action="/customer/reg/" method="post" id="reg" class="form">
             {% csrf_token %}
             <h2>Register</h2>
             <section>
@@ -47,7 +47,7 @@
                 <label for="confirm">Conform Password</label>
                 <input type="password" name="confirm" placeholder="Confirm Password">
             </section>
-            <button>Register & Login</button>
+            <button class="button">Register & Login</button>
         </form>
         <button class="logReg">
             <a href="javascript:void(0);" class="icon button" onclick="auth()"><span id="text">Don't have an account? Register</span>

@@ -1,0 +1,55 @@
+{% load static %}
+{% load cart %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %} {% include 'block/head.html' %} {% endblock head %}
+<body>
+    {% block header %} {% include 'block/header.html' %} {% endblock header %}
+    {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
+    <main>    
+        <h1>{{user.firstName}}'s Cart</h1>
+        <table>
+            <tr>
+                <th>Item #</th>
+                <th>Name</th>
+                <th class="mobileHide">Image</th>
+                <th class="mobileHide">Price</th>
+                <th class="mobileHide">Quantity</th>
+                <th class="mobileHide bold">Total</th>
+                <th class="deskHide">Price/Qty/Total</th>
+            </tr>
+            {% for prod in products %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td class="start">{{prod.name}}</td>
+                    <td class="mobileHide">{{prod.price}}</td>
+                    <td class="mobileHide"></td>
+                    <td class="mobileHide bold"></td>
+                    <td class="deskHide">
+                        {% if prod|noPrice == True %}
+                            TBD
+                        {% else %}
+                            {{prod.price}} | {{prod|prodQuantity:request.session.cart}} | {{prod|prodTotal:request.session.cart}} 
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th class="deskHide">Total</th>
+                <th colspan="2" class="mobileHide"></th>
+                <th colspan="2" class="deskHide end">{{products|cartTotal:request.session.cart}}</th>
+                <th colspan="3" class="mobileHide end">{{products|cartTotal:request.session.cart}}</th>
+            </tr>
+            <tr>
+                <td class="deskHide" colspan="3">
+                    <button><a href="/customer/order">Place Order</a></button>
+                </td>
+                <td class="mobileHide" colspan="6">
+                    <button><a href="/customer/order">Place Order</a></button>
+                </td>
+            </tr>
+        </table>
+    </main>
+    {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
+</body>
+</html>

@@ -10,7 +10,11 @@
         <nav id="myLinks">
             <a href="/">Store</a>
             <a href="/cart/">Cart <span class="cart">{{request.session.cart|length}}</span></a>
-            <a href="/logReg/">Login</a>
+            {% if user %}
+                <a href="/logout/">Logout</a>
+            {% else %}
+                <a href="/logReg/">Login</a>
+            {% endif %}
         </nav>
     </nav>
     {% endblock nav %}

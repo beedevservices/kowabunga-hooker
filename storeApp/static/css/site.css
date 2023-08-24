@@ -10,6 +10,24 @@
   justify-content: center;
   align-items: center;
 }
+table,
+td,
+tr,
+th {
+  text-align: center;
+  padding: 0.5em;
+}
+tr,
+th,
+td {
+  border-bottom: 2px solid #b4d9e4;
+}
+.start {
+  text-align: left;
+}
+.end {
+  text-align: right;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -105,7 +123,7 @@ body main .right .column .row {
 body main #reg {
   display: none;
 }
-body main form {
+body main .form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -117,7 +135,7 @@ body main form {
   font-size: 1.2em;
   border: 3px groove #c6a280;
 }
-body main form button {
+body main .form .button {
   width: 90%;
   background-color: #336447;
   color: #e9dbce;
@@ -125,7 +143,7 @@ body main form button {
   font-size: 1em;
   border: 3px groove #020612;
 }
-body main form section {
+body main .form section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -133,19 +151,19 @@ body main form section {
   width: 90%;
   margin: 0.5em 0;
 }
-body main form section label {
+body main .form section label {
   align-self: flex-start;
   margin: 0.5em 0;
 }
-body main form section input {
+body main .form section input {
   display: block;
   width: 100%;
 }
-body main form section .toolTip {
+body main .form section .toolTip {
   position: relative;
   display: inline-block;
 }
-body main form section .toolTip .toolTipText {
+body main .form section .toolTip .toolTipText {
   visibility: hidden;
   width: 150px;
   background-color: #555;
@@ -161,7 +179,7 @@ body main form section .toolTip .toolTipText {
   opacity: 0;
   transition: opacity 0.3s;
 }
-body main form section .toolTip .toolTipText::after {
+body main .form section .toolTip .toolTipText::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -171,7 +189,7 @@ body main form section .toolTip .toolTipText::after {
   border-style: solid;
   border-color: #555 transparent transparent transparent;
 }
-body main form section .toolTip:hover .toolTipText {
+body main .form section .toolTip:hover .toolTipText {
   visibility: visible;
   opacity: 1;
 }
@@ -185,6 +203,9 @@ body main .logReg a {
   font-size: 1.2em;
   color: #e9dbce;
   text-decoration: none;
+}
+body main .mobileHide {
+  display: none;
 }
 body footer {
   display: flex;
