@@ -32,7 +32,7 @@ def noPrice(prod):
     
 @register.filter(name='prodTotal')
 def prodTotal(prod, cart):
-    return prod.price * prodQuantity(prod, cart)
+    return prod.price * prodQuantity(prod.id, cart)
 
 @register.filter(name='cartTotal')
 def cartTotal(prods, cart):

@@ -29,7 +29,7 @@
                         {% if prod|noPrice == True %}
                             TBD
                         {% else %}
-                            {{prod.price}} | {{prod|prodQuantity:request.session.cart}} | {{prod|prodTotal:request.session.cart}} 
+                            {{prod.price}} | {{prod.id|prodQuantity:request.session.cart}} | {{prod|prodTotal:request.session.cart}} 
                         {% endif %}
                     </td>
                 </tr>

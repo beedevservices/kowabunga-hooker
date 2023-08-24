@@ -39,7 +39,7 @@
                                 <input type="hidden" name="remove" value="True">
                                 <button> - </button>
                             </form>
-                            <button>{{prod|prodQuantity:request.session.cart}} in Cart</button>
+                            <button>{{prod.id|prodQuantity:request.session.cart}} in Cart</button>
                             <form action="/add/" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="prod_id" value="{{prod.id}}">
