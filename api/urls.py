@@ -8,7 +8,7 @@ urlpatterns = [
     path('', views.apiBase),
     path('allCustomers/', views.apiAllCustomers),
     path('allProducts/', views.apiAllProducts),
-    path('test/', views.apiTest),
+    path('allOrders/', views.apiAllOrders),
     path('allOrders-allCustomers/', views.apiAllByCust),
 ]
 if settings.DEBUG:

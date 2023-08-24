@@ -1,0 +1,270 @@
+{
+users: [
+{
+id: 1,
+firstName: "Melissa",
+lastName: "Longenberger",
+email: "melissalongenberger24@gmail.com",
+age: "1978-10-31",
+password: "$2b$12$..60sPWvSy1sZ0E.YzfGXOGMoQ4Fhgyib3w/vqfcN2uhkdZtAKIYO",
+createdAt: "2023-08-24T07:45:36.829Z",
+updatedAt: "2023-08-24T07:45:36.829Z"
+},
+{
+id: 2,
+firstName: "Shannon",
+lastName: "Doe",
+email: "irishgardenlady@gmail.com",
+age: "2002-08-25",
+password: "$2b$12$DmF0Oz0q8b0TZXK8Tx89Ku/hv4EfFmoH9Y.sNzrNysbIyqZottGn2",
+createdAt: "2023-08-24T08:05:06.360Z",
+updatedAt: "2023-08-24T08:05:06.360Z"
+},
+{
+id: 3,
+firstName: "Jane",
+lastName: "Doe",
+email: "honeybeeslife78@gmail.com",
+age: "2002-08-24",
+password: "$2b$12$ScBDoT7EYQcgy483112eEejVtWGkvuVfEp2Ko2koWYCgVvEIZeLq2",
+createdAt: "2023-08-24T08:09:14.175Z",
+updatedAt: "2023-08-24T08:09:14.175Z"
+}
+],
+profiles: [
+{
+id: 1,
+user_id: 1,
+address01: "123 main st",
+address02: "",
+city: "berwick",
+state: "pa",
+zip: "18603",
+phone: "1234561234"
+},
+{
+id: 2,
+user_id: 2,
+address01: "",
+address02: "",
+city: "",
+state: "",
+zip: "",
+phone: ""
+},
+{
+id: 3,
+user_id: 3,
+address01: "",
+address02: "",
+city: "",
+state: "",
+zip: "",
+phone: ""
+}
+],
+orders: [
+{
+id: 1,
+quantity: 5,
+orderNumber: "2023-rGCa-24-moNW-8",
+price: 20,
+product_id: 1,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T11:39:26.705Z",
+updatedAt: "2023-08-24T11:39:26.705Z"
+},
+{
+id: 2,
+quantity: 3,
+orderNumber: "2023-rGCa-24-moNW-8",
+price: 20,
+product_id: 1,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T11:41:16.986Z",
+updatedAt: "2023-08-24T11:41:16.986Z"
+},
+{
+id: 3,
+quantity: 1,
+orderNumber: "2023-rGCa-24-moNW-8",
+price: 10,
+product_id: 2,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T11:41:16.996Z",
+updatedAt: "2023-08-24T11:41:16.996Z"
+},
+{
+id: 4,
+quantity: 1,
+orderNumber: "2023-rGCa-24-moNW-8",
+price: 20,
+product_id: 3,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T11:41:17.006Z",
+updatedAt: "2023-08-24T11:41:17.006Z"
+},
+{
+id: 5,
+quantity: 1,
+orderNumber: "2023-Hjwv-24-PNmV-8",
+price: 20,
+product_id: 1,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T12:06:08.310Z",
+updatedAt: "2023-08-24T12:06:08.310Z"
+},
+{
+id: 6,
+quantity: 1,
+orderNumber: "2023-XcEP-24-BsxC-8",
+price: 20,
+product_id: 1,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T12:11:31.205Z",
+updatedAt: "2023-08-24T12:11:31.205Z"
+},
+{
+id: 7,
+quantity: 2,
+orderNumber: "2023-XcEP-24-BsxC-8",
+price: null,
+product_id: 4,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T12:11:31.222Z",
+updatedAt: "2023-08-24T12:11:31.222Z"
+},
+{
+id: 8,
+quantity: 1,
+orderNumber: "2023-XcEP-24-BsxC-8",
+price: 10,
+product_id: 5,
+customer_id: 1,
+date: "2023-08-24",
+notes: null,
+status: false,
+createdAt: "2023-08-24T12:11:31.238Z",
+updatedAt: "2023-08-24T12:11:31.238Z"
+}
+],
+invoices: [ ],
+categories: [
+{
+id: 1,
+name: "Stuffed Animals",
+adultOnly: false,
+createdAt: "2023-08-24T03:06:14.474Z",
+updatedAt: "2023-08-24T03:29:28.047Z"
+},
+{
+id: 2,
+name: "Afghans",
+adultOnly: false,
+createdAt: "2023-08-24T03:06:23.908Z",
+updatedAt: "2023-08-24T03:29:23.176Z"
+},
+{
+id: 3,
+name: "Adult",
+adultOnly: true,
+createdAt: "2023-08-24T03:06:35.567Z",
+updatedAt: "2023-08-24T03:29:18.838Z"
+}
+],
+products: [
+{
+id: 1,
+name: "Test Prod",
+price: 20,
+madeToOrder: false,
+description: "blabla",
+adultOnly: false,
+image: "products/imageedit_11_7854546171.png",
+category_id: 1,
+createdAt: "2023-08-24T03:08:50.973Z",
+updatedAt: "2023-08-24T04:11:53.345Z"
+},
+{
+id: 2,
+name: "Melissa Longenberger",
+price: 10,
+madeToOrder: false,
+description: "a;lkjas;fjas;f alsjf;asifja;pfjp'e",
+adultOnly: false,
+image: "products/42cqwm.jpg",
+category_id: 2,
+createdAt: "2023-08-24T03:10:08.474Z",
+updatedAt: "2023-08-24T04:12:08.350Z"
+},
+{
+id: 3,
+name: "static",
+price: 20,
+madeToOrder: false,
+description: "a;jas;fjsa f;sijf ;sa fjasfjs",
+adultOnly: true,
+image: "products/365205882_677789837700460_5132050075711770380_n.jpg",
+category_id: 3,
+createdAt: "2023-08-24T03:10:49.329Z",
+updatedAt: "2023-08-24T04:12:37.298Z"
+},
+{
+id: 4,
+name: "shawl",
+price: null,
+madeToOrder: true,
+description: "a;gljag jagjagaj",
+adultOnly: false,
+image: "products/cartoonCar01.png",
+category_id: 1,
+createdAt: "2023-08-24T04:26:34.825Z",
+updatedAt: "2023-08-24T04:26:34.825Z"
+},
+{
+id: 5,
+name: "another test",
+price: 10,
+madeToOrder: true,
+description: "a;gja gjagajg;lj",
+adultOnly: false,
+image: "products/IMG_1134.JPG",
+category_id: 2,
+createdAt: "2023-08-24T04:27:16.140Z",
+updatedAt: "2023-08-24T04:27:16.140Z"
+},
+{
+id: 6,
+name: "ggnfgnfgnfgnfg",
+price: 10,
+madeToOrder: true,
+description: "sh sthsrtsrthsrth",
+adultOnly: false,
+image: "products/Copper.jpg",
+category_id: 1,
+createdAt: "2023-08-24T04:43:59.872Z",
+updatedAt: "2023-08-24T04:43:59.872Z"
+}
+]
+}

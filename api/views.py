@@ -43,10 +43,38 @@ def apiAllProducts(request):
     }
     return JsonResponse(context, content_type='application/json')
 
-def apiTest(request):
-    cust = request.get('/api/allCustomers')
-    print(cust)
-    return JsonResponse(content_type='application/json')
+def apiAllOrders(request):
+    theOrders = list(Order.objects.all().values())
+    theProducts = list(Product.objects.all().values())
+    categories = list(Category.objects.all().values())
+    orderNumbers = []
+    orders = []
+    order = {}
+    products = []
+    product = {}
+    items = []
+    item = {}
+    for prod in theProducts:
+        for cat in categories:
+            if cat['id'] == prod['category_id']:
+                product = {'product': prod, 'category': cat}
+        products.append({'product': product})
+    for o in theOrders:
+        print(o['orderNumber'])
+        aOrder = o['orderNumber']
+        if aOrder not in orderNumbers:
+            orderNumbers.append(aOrder)
+    for o in theOrders:
+        for num in orderNumbers:
+            if o['orderNumber'] == num:
+                print('the o', o, 'the num', num)
+                items.append(o['quantity'])
+            order = {num: items}
+        orders.append(order)
+    context = {
+        'orders': orders
+    }
+    return JsonResponse(context,content_type='application/json')
     
 
 def apiAllByCust(request):
