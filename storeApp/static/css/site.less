@@ -49,17 +49,135 @@ body {
 
             #myLinks {
                 display: none;
+
+                a {
+                    color: @font;
+                    text-decoration: none;
+                    font-size: 1.1em;
+
+                    .cart {
+                        background-color: @dkbg;
+                        border-radius: 20%;
+                        padding: .15em;
+                        color: @bg;
+                        font-weight: 700;
+                    }
+                }
             }
         }
     }
     main {
         .flexcolumn();
+        width: 100%;
 
         .left {
             .flexcolumn();
 
             #myCats {
                 display: none;
+            }
+        }
+        .right {
+            .flexcolumn();
+
+            .column {
+                .flexcolumn();
+                border: 3px groove @dkbg;
+                padding: .5em;
+                margin: .5em;
+
+                img {
+                    max-width: 200px;
+                }
+                h4 {
+                    align-self: flex-start;
+                }
+                .row {
+                    .flexrow();
+                }
+            }
+        }
+        #reg {
+            display: none;
+        }
+        form {
+            .flexcolumn();
+            background-color: @ltgreen;
+            padding: 1em;
+            width: 85%;
+            margin: 1em .5em;
+            font-size: 1.2em;
+            border: 3px groove @dkbg;
+
+            button {
+                width: 90%;
+                background-color: @dkgreen;
+                color: @bg;
+                margin: .5em 0;
+                font-size: 1em;
+                border: 3px groove @font;
+            }
+
+            section {
+                .flexcolumn();
+                width: 90%;
+                margin: .5em 0;
+
+                label {
+                    align-self: flex-start;
+                    margin: .5em 0;
+                }
+                input {
+                    display: block;
+                    width: 100%;
+                }
+                .toolTip {
+                    position: relative;
+                    display: inline-block;
+
+                    .toolTipText {
+                        visibility: hidden;
+                        width: 150px;
+                        background-color: #555;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: 6px;
+                        padding: 0.5em;
+                        position: absolute;
+                        z-index: 1;
+                        bottom: 125%;
+                        left: 44%;
+                        margin-left: -10px;
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                    }
+                    .toolTipText::after {
+                        content: "";
+                        position: absolute;
+                        top: 100%;
+                        left: 50%;
+                        margin-left: -5px;
+                        border-width: 5px;
+                        border-style: solid;
+                        border-color: #555 transparent transparent transparent;
+                    }
+                }
+                .toolTip:hover .toolTipText {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+        .logReg {
+            width: 90%;
+            background-color: @dkgreen;
+            padding: .5em;
+            border: 3px groove @font;
+            
+            a {
+                font-size: 1.2em;
+                color: @bg;
+                text-decoration: none;
             }
         }
     }

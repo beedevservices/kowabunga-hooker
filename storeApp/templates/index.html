@@ -1,4 +1,5 @@
 {% load static %}
+{% load cart %}
 <!DOCTYPE html>
 <html lang="en">
     {% block head %} {% include 'block/head.html' %} {% endblock head %}
@@ -10,11 +11,50 @@
             <h2>Select Category</h2>
             <a href="javascript:void(0);" class="icon" onclick="menu('myCats')"><i class="fa fa-bars"></i></a>
             <nav id="myCats">
-                <a href="/" class="category">All Products</a>
+                <a href="/0/" class="category">All Products</a>
+                {% for cat in categories %}
+                    <a href="/{{cat.id}}/" class="category">{{cat.name}}</a>
+                {% endfor %}
             </nav>
         </div>
         <div class="right">
             <h2>All Products</h2>
+            {% for prod in products %}
+                <div class="column">
+                    <img src="/media/{{prod.image}}" alt="{{prod.name}}">
+                    <h4>{{prod.name}}</h4>
+                    {% if prod.price %}
+                        <h4>${{prod.price}}</h4>
+                    {% else %}
+                        <h4>TBD</h4>
+                    {% endif %}
+                    {% if prod.madeToOrder == True %}
+                        <h4>Product Made To Order</h4>
+                    {% endif %}
+                    {% if prod.id|inTheCart:request.session.cart %}
+                        <div class="row">
+                            <form action="/add/" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="prod_id" value="{{prod.id}}">
+                                <input type="hidden" name="remove" value="True">
+                                <button> - </button>
+                            </form>
+                            <button>{{prod.id|prodQuantity:request.session.cart}} in Cart</button>
+                            <form action="/add/" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="prod_id" value="{{prod.id}}">
+                                <button> + </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <form action="/add/" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="prod_id" value="{{prod.id}}">
+                            <button>Add to Cart</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
     </main>
     {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}

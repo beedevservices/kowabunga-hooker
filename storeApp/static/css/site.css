@@ -47,11 +47,24 @@ body header nav {
 body header nav #myLinks {
   display: none;
 }
+body header nav #myLinks a {
+  color: #020612;
+  text-decoration: none;
+  font-size: 1.1em;
+}
+body header nav #myLinks a .cart {
+  background-color: #c6a280;
+  border-radius: 20%;
+  padding: 0.15em;
+  color: #e9dbce;
+  font-weight: 700;
+}
 body main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 body main .left {
   display: flex;
@@ -61,6 +74,117 @@ body main .left {
 }
 body main .left #myCats {
   display: none;
+}
+body main .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+body main .right .column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px groove #c6a280;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+body main .right .column img {
+  max-width: 200px;
+}
+body main .right .column h4 {
+  align-self: flex-start;
+}
+body main .right .column .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+body main #reg {
+  display: none;
+}
+body main form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #8dce9d;
+  padding: 1em;
+  width: 85%;
+  margin: 1em 0.5em;
+  font-size: 1.2em;
+  border: 3px groove #c6a280;
+}
+body main form button {
+  width: 90%;
+  background-color: #336447;
+  color: #e9dbce;
+  margin: 0.5em 0;
+  font-size: 1em;
+  border: 3px groove #020612;
+}
+body main form section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0.5em 0;
+}
+body main form section label {
+  align-self: flex-start;
+  margin: 0.5em 0;
+}
+body main form section input {
+  display: block;
+  width: 100%;
+}
+body main form section .toolTip {
+  position: relative;
+  display: inline-block;
+}
+body main form section .toolTip .toolTipText {
+  visibility: hidden;
+  width: 150px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.5em;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 44%;
+  margin-left: -10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+body main form section .toolTip .toolTipText::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+body main form section .toolTip:hover .toolTipText {
+  visibility: visible;
+  opacity: 1;
+}
+body main .logReg {
+  width: 90%;
+  background-color: #336447;
+  padding: 0.5em;
+  border: 3px groove #020612;
+}
+body main .logReg a {
+  font-size: 1.2em;
+  color: #e9dbce;
+  text-decoration: none;
 }
 body footer {
   display: flex;

@@ -4,12 +4,13 @@
 <body>
     {% block nav %}
     <nav>
-        <a href="/cart/">Cart <span>0</span></a>
         <a href="javascript:void(0);" class="icon" onclick="menu('myLinks')">
             <i class="fa fa-bars"></i>
         </a>
         <nav id="myLinks">
-            <a href="/login/">Login</a>
+            <a href="/">Store</a>
+            <a href="/cart/">Cart <span class="cart">{{request.session.cart|length}}</span></a>
+            <a href="/logReg/">Login</a>
         </nav>
     </nav>
     {% endblock nav %}

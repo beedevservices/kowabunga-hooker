@@ -2,13 +2,14 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from storeApp.models import *
+import datetime
 
 class UserManager(models.Manager):
     def validate(self, form):
         errors = {}
         emailCheck = self.filter(email=form['email'])
         if emailCheck:
-            errors['username'] = 'Username already in use'
+            errors['email'] = 'Email already in use'
         if form['password'] != form['confirm']:
             errors['password'] = 'Passwords do not match'
         return errors
@@ -17,7 +18,7 @@ class User(models.Model):
     firstName = models.CharField(max_length=255)
     lastName = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    age = models.DateField()
+    age = models.DateField(blank=True, null=True)
     password = models.CharField(max_length=255)
 
     objects = UserManager()
@@ -29,7 +30,7 @@ class User(models.Model):
         self.save()
 
     def __str__(self):
-        return self.username
+        return self.firstName
     def fullName(self):
         return f'{self.firstName} {self.lastName}'
     

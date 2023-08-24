@@ -1,0 +1,59 @@
+{% load static %}
+{% load cart %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %} {% include 'block/head.html' %} {% endblock head %}
+<body>
+    {% block header %} {% include 'block/header.html' %} {% endblock header %}
+    {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
+    <main>
+        <form action="/customer/login/" method="post" id="login">
+            {% csrf_token %}
+            <h2>Login</h2>
+            <section>
+                <label for="email">Email Address</label>
+                <input type="email" name="email" placeholder="email@domain.com">
+            </section>
+            <section>
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Password">
+            </section>
+            <button>Login</button>
+        </form>
+        <form action="/customer/reg/" method="post" id="reg">
+            {% csrf_token %}
+            <h2>Register</h2>
+            <section>
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" placeholder="First Name">
+            </section>
+            <section>
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" placeholder="Last Name">
+            </section>
+            <section>
+                <label for="email">Email Address</label>
+                <input type="email" name="email" placeholder="email@domain.com">
+            </section>
+            <section>
+                <label for="age"class="toolTip">BirthDate  &#8505;<span class="toolTipText">Why we ask? Birthday Specials is why. (Not Required unless you like Specials)</span></label>
+                <input type="date" name="age" placeholder="01/01/1999">
+            </section>
+            <section>
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Password">
+            </section>
+            <section>
+                <label for="confirm">Conform Password</label>
+                <input type="password" name="confirm" placeholder="Confirm Password">
+            </section>
+            <button>Register & Login</button>
+        </form>
+        <button class="logReg">
+            <a href="javascript:void(0);" class="icon button" onclick="auth()"><span id="text">Don't have an account? Register</span>
+            </a>
+        </button>
+    </main>
+    {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
+</body>
+</html>

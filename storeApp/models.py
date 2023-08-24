@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 
 class Category(models.Model):
     name= models.CharField(max_length=255)
+    adultOnly = models.BooleanField(default=1)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
 
@@ -16,10 +17,11 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
-    price = models.IntegerField(default=0)
+    price = models.IntegerField(default=0, blank=True, null=True)
+    madeToOrder = models.BooleanField(default=0)
     description= models.TextField(max_length=255, default='', blank=True, null= True)
-    adultOnly = models.BooleanField(default=0)
-    image= models.ImageField(upload_to='uploads/products/')
+    adultOnly = models.BooleanField(default=1)
+    image= models.ImageField(upload_to='products')
     category= models.ForeignKey(Category, related_name='theCategory',on_delete=CASCADE)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
