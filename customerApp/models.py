@@ -73,7 +73,7 @@ class Order(models.Model):
     def placeOrder(self):
         self.save()
 
-class invoice(models.Model):
+class Invoice(models.Model):
     orderNumber = models.CharField(max_length=255)
     lastName = models.CharField(max_length=255)
     orderDate = models.DateField (default=datetime.datetime.today)
