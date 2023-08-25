@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('login/', views.login),
     path('reg/', views.reg),
-    path('order/', views.custOrder),
+    path('order/', views.placeOrder),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

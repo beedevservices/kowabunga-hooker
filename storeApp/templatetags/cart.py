@@ -44,7 +44,7 @@ def cartTotal(prods, cart):
         else:
             sum += prodTotal(prod, cart)
     if count > 0:
-        theTotal = f'${sum} + Custom Items + Shipping'
+        theTotal = f'${sum} + Custom Items'
     else:
-        theTotal = f'${sum} + Shipping'
+        theTotal = f'${sum}'
     return theTotal

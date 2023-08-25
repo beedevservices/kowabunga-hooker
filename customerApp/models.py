@@ -79,9 +79,6 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.customer.firstName} {self.customer.lastName} - {self.orderNumber}'
 
-    def placeOrder(self):
-        self.save()
-
 class Invoice(models.Model):
     orderNumber = models.CharField(max_length=255)
     theCustomer = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)

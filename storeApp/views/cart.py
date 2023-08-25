@@ -16,7 +16,7 @@ def cart(request):
         cart = request.session['cart']
         ids = list(request.session.get('cart').keys())
         products = Product.objects.filter(id__in=ids)
-        print(products, cart)
+        print('thecart', cart, 'theprods', products)
         context = {
             'user': user,
             'cart': cart,

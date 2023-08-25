@@ -21,7 +21,7 @@
             {% for prod in products %}
                 <tr>
                     <td>{{forloop.counter}}</td>
-                    <td class="start">{{prod.name}}</td>
+                    <td class="start">{{prod.id}}{{prod.name}}</td>
                     <td class="mobileHide">{{prod.price}}</td>
                     <td class="mobileHide"></td>
                     <td class="mobileHide bold"></td>
@@ -32,6 +32,7 @@
                             {{prod.price}} | {{prod.id|prodQuantity:request.session.cart}} | {{prod|prodTotal:request.session.cart}} 
                         {% endif %}
                     </td>
+                    <input type="hidden" name="id" value="{{prod.id}}">
                 </tr>
             {% endfor %}
             <tr>
@@ -39,6 +40,10 @@
                 <th colspan="2" class="mobileHide"></th>
                 <th colspan="2" class="deskHide end">{{products|cartTotal:request.session.cart}}</th>
                 <th colspan="3" class="mobileHide end">{{products|cartTotal:request.session.cart}}</th>
+            </tr>
+            <tr>
+                <th colspan="3" class="deskHide">Any Shipping Added Later</th>
+                <th colspan="5" class="mobileHide">Any shipping is added later</th>
             </tr>
             <tr>
                 <td class="deskHide" colspan="3">

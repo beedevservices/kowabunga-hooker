@@ -23,3 +23,16 @@ def custOrder(request):
         order.save()
         request.session['cart'] = {}
     return redirect(url)
+
+def placeOrder(request):
+    url = request.session['url']
+    orderNum = genOrderCode()
+    theCart = request.session.get('cart', [])
+    orderTotal = sum(item['linePriceTotal'] for item in theCart)
+    order = Order.objects.create(
+        customer=User.objects.get(id=request.session['user_id']),
+        orderNumber = orderNum,
+        orderTotal=orderTotal,
+        notes = request.POST['notes'],
+    )
+    return redirect(url)
