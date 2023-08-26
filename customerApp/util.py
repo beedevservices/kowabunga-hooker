@@ -32,11 +32,3 @@ def sendOrderEmail(user):
     recipient_list = []
     send_mail(subject, message, email_from, recipient_list)
 
-def genOrderCode():
-    N = 4
-    res01 = ''.join(random.choices(string.ascii_letters, k=N))
-    res02 = ''.join(random.choices(string.ascii_letters, k=N))
-    stamp = datetime.date.today()
-    orderconfirm = f'{stamp.year}-{res01}-{stamp.day}-{res02}-{stamp.month}'
-    print(orderconfirm, stamp, res01, res02)
-    return orderconfirm
