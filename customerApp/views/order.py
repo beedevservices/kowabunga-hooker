@@ -54,9 +54,9 @@ def placeOrder(request):
     toUpdate.save()
     request.session['cart'] = {}
     request.session['order_id'] = newOrder.id
-    # sendOrderEmail(customer, updatedOrder)
-    # return redirect('/thankyou/')
-    return redirect('/customer/confirm/')
+    sendOrderEmail(customer, updatedOrder)
+    return redirect('/thankyou/')
+    # return redirect('/customer/confirm/')
 
 
 def confirmOrder(request):
