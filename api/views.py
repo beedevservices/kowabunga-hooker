@@ -13,6 +13,25 @@ status = {
 def apiBase(request):
     return JsonResponse(status, content_type="application.json")
 
+def apiAllData(request):
+    theOrders = list(Order.objects.all().values())
+    users = list(User.objects.all().values())
+    categories = list(Category.objects.all().values())
+    theProducts = list(Product.objects.all().values())
+    profiles = list(Profile.objects.all().values())
+    invoices = list(Invoice.objects.all().values())
+    theItems = list(OrderItem.objects.all().values())
+    context = {
+        'theOrders': theOrders,
+        'users': users,
+        'categories': categories,
+        'theProducts': theProducts,
+        'profiles': profiles,
+        'invoices': invoices,
+        'theItems': theItems,
+    }
+    return JsonResponse(context, content_type='application/json')
+
 def apiAllCustomers(request):
     users = list(User.objects.all().values())
     profiles = list(Profile.objects.all().values())
@@ -69,7 +88,7 @@ def apiAllOrderNumbers(request):
     theOrders = list(Order.objects.all().values())
     orderNumbers = []
     for o in theOrders:
-        aOrder = o['orderNumber']
+        aOrder = o['orderNum']
         if aOrder not in orderNumbers:
             orderNumbers.append(aOrder)
     context = {
@@ -81,7 +100,7 @@ def apiOneOrderNumber(request, orderNum):
     theOrders = list(Order.objects.all().values())
     orders = []
     for o in theOrders:
-        if o['orderNumber'] == orderNum:
+        if o['orderNum'] == orderNum:
             order = {'order': o}
             orders.append(order)
     context = {
@@ -93,13 +112,25 @@ def apiAllInvoiceNumbers(request):
     theInvoices = list(Invoice.objects.all().values())
     invoiceNumbers = []
     for i in theInvoices:
-        oneI = i['orderNumber']
+        oneI = i['orderNum']
         if oneI not in invoiceNumbers:
             invoiceNumbers.append(oneI)
     context = {
         'invoiceNumbers': invoiceNumbers,
     }
     return JsonResponse(context,content_type='application/json')
+
+def apiOneInvoiceNumber(request, orderNum):
+    theInvoices = list(Order.objects.all().values())
+    invoice = {}
+    for i in theInvoices:
+        if i['orderNum'] == orderNum:
+            invoice = {'invoice': i}
+    return JsonResponse(invoice, content_type='application/json')
+
+def apiAllOrderItems(request):
+    theItems = list(OrderItem.objects.all().values())
+    return JsonResponse(theItems, content_type='application/json')
 
 # theOrders = list(Order.objects.all().values())
 # users = list(User.objects.all().values())

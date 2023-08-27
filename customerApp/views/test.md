@@ -104,9 +104,72 @@ class Inventory(models.Model):
 ```
 
 
+```python
+def addToCart(request):
+    product_id = request.POST.get('prod_id')
+    action = request.POST.get('action')  # 'add', 'remove', etc.
+    cart = request.session.get('cart', {})
 
+    if action == 'add':
+        cart_item = cart.get(str(product_id), {})
+        quantity = cart_item.get('quantity', 0)
+        cart_item['quantity'] = quantity + 1
+        cart[str(product_id)] = cart_item
 
+    request.session['cart'] = cart
+    return redirect('/')
+```
 
+```python
+from django.shortcuts import render, redirect
+from .models import Order, OrderItem, Product
+from django.db import transaction
+from django.contrib import messages
+
+def place_order(request):
+    # Step 1: Create an Order instance
+    errors, order_num = Order.objects.validate()  # Validate and generate order number
+    if errors:
+        for error in errors.values():
+            messages.error(request, error)
+        return redirect('cart_page')  # Redirect back to cart page if there are errors
+    
+    # Create the Order instance
+    customer = request.user  # Assuming the authenticated user is the customer
+    order = Order(orderNum=order_num, customer=customer)
+    
+    # Step 2: Iterate through session data and create OrderItem instances
+    total_order_price = 0
+    item_count = 0
+    for product_id, product_data in request.session.items():
+        if product_id.isnumeric():
+            product = Product.objects.get(pk=product_id)
+            quantity = product_data.get('quantity', 0)
+            price = product_data.get('price', 0)
+            total = int(quantity) * int(price)
+            total_order_price += total
+            item_count += quantity
+            order_item = OrderItem(
+                orderNum=order, product=product, quantity=quantity, total=str(total)
+            )
+            order_item.save()
+    
+    # Update the Order instance with item count and total price
+    order.itemCount = item_count
+    order.orderTotal = str(total_order_price)
+    order.save()
+
+    # Step 3: Save the order and order items
+    order.save()
+
+    # Clear the session cart after successfully placing the order
+    request.session.clear()
+
+    # Redirect to a success page or wherever you want
+    messages.success(request, 'Order placed successfully!')
+    return redirect('success_page')
+
+```
 
 
 

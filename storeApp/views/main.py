@@ -36,6 +36,7 @@ def index(request):
         'url': url,
     }
     # print(context)
+    # print(cart)
     return render(request, 'index.html', context)
 
 def catFilter(request, id):
@@ -45,22 +46,81 @@ def catFilter(request, id):
 def addToCart(request):
     product = request.POST.get('prod_id')
     remove = request.POST.get('remove')
+    add = request.POST.get('add')
     cart = request.session.get('cart')
-    if cart:
-        quantity = cart.get(product)
-        # print(cart, quantity)
-        if quantity:
-            if remove:
-                if quantity <= 1:
-                    cart.pop(product)
-                else:
-                    cart[product] = quantity-1
-            else:
-                cart[product]  = quantity+1
+    thePrice = request.POST.get('price')
+    item = Product.objects.get(id=request.POST.get('prod_id'))
+    print('product',product, 'cart', cart, 'item', item, 'remove', remove, 'add', add, 'price', thePrice)
+    if add:
+        plus = cart.get(str(item.id))['quantity']
+        price = int(cart.get(str(item.id))['price'])
+        total = int(cart.get(str(item.id))['total'])
+        plus = plus+1
+        total = price * plus
+        cart[str(product)]['quantity'] = plus
+        cart[str(product)]['total'] = total
+        print('add more to the cart', cart)
+    elif remove:
+        min = cart.get(str(item.id))['quantity']
+        price = int(cart.get(str(item.id))['price'])
+        total = int(cart.get(str(item.id))['total'])
+        if min <= 1:
+            cart.pop(product)
         else:
-            cart[product] = 1
+            min = min-1
+            total = price * min
+            cart[str(product)]['quantity'] = min
+            cart[str(product)]['total'] = total
+            print('remove from cart', cart)
     else:
-        cart = {}
-        cart[product] = 1
+        if cart == {}:
+            print('empty cart', cart)
+            item = cart.get(str(item.id), {})
+            quantity = item.get('quantity', 0)
+            price = (item.get('price', thePrice))
+            total = item.get('total', 0)
+            item['quantity'] = quantity+1
+            item['price'] = price
+            total = item['price']
+            item['total'] = total
+            cart[str(product)] = item
+            print('new cart', cart)
+        else:
+            # print('the cart', cart)
+            item = cart.get(str(item.id), {})
+            quantity = item.get('quantity', 0)
+            price = item.get('price', thePrice)
+            total = item.get('total', 0)
+            item['quantity'] = quantity+1
+            item['price'] = price
+            total = item['price']
+            item['total'] = total
+            cart[str(product)] = item
+            print('new cart', cart)
+    # if cart:
+    #     pass
+    # else:
+    #     cart = {}
+    #     cart[str{prod_id}] = {
+    #         'quantity': 1,
+    #         'price': 
+    #     }
+    # if cart:
+    #     quantity = cart.get(product)
+    #     print(cart, quantity)
+    #     if quantity:
+    #         if remove:
+    #             if quantity <= 1:
+    #                 cart.pop(product)
+    #             else:
+    #                 cart[product] = quantity-1
+    #         else:
+    #             cart[product]  = quantity+1
+    #     else:
+    #         cart[product] = 1
+    # else:
+    #     cart = {}
+    #     cart[product] = 1
     request.session['cart'] = cart
+    print(request.session['cart'])
     return redirect('/')

@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
-from storeApp.models import *
 import datetime
 
 class UserManager(models.Manager):
@@ -54,13 +53,3 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         User.objects.create(user=instance)
         post_save.connect(create_user_profile, sender=User)
-
-class Invoice(models.Model):
-    theCustomer = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
-    cart = models.OneToOneField(Order, unique=True, on_delete=models.CASCADE)
-    orderDate = models.DateField (default=datetime.datetime.today)
-    pdf = models.FileField(upload_to='invoices')
-    createdAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now=True)
-    def __str__(self):
-        return f'{self.lastName} - {self.orderNUmber}'

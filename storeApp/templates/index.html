@@ -36,6 +36,7 @@
                             <form action="/add/" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="prod_id" value="{{prod.id}}">
+                                <input type="hidden" name="price" value="{{prod.price}}">
                                 <input type="hidden" name="remove" value="True">
                                 <button> - </button>
                             </form>
@@ -43,6 +44,8 @@
                             <form action="/add/" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="prod_id" value="{{prod.id}}">
+                                <input type="hidden" name="price" value="{{prod.price}}">
+                                <input type="hidden" name="add" value="True">
                                 <button> + </button>
                             </form>
                         </div>
@@ -50,6 +53,8 @@
                         <form action="/add/" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="prod_id" value="{{prod.id}}">
+                            <input type="hidden" name="price" value="{{prod.price}}">
+                            <input type="hidden" name="new" value="True">
                             <button>Add to Cart</button>
                         </form>
                     {% endif %}

@@ -84,6 +84,10 @@ body main {
   align-items: center;
   width: 100%;
 }
+body main .thankyou {
+  max-width: 300px;
+  margin: 1em;
+}
 body main .left {
   display: flex;
   flex-direction: column;

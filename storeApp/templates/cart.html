@@ -21,7 +21,7 @@
             {% for prod in products %}
                 <tr>
                     <td>{{forloop.counter}}</td>
-                    <td class="start">{{prod.id}}{{prod.name}}</td>
+                    <td class="start">{{prod.name}}</td>
                     <td class="mobileHide">{{prod.price}}</td>
                     <td class="mobileHide"></td>
                     <td class="mobileHide bold"></td>
@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <td class="deskHide" colspan="3">
-                    <button><a href="/customer/order">Place Order</a></button>
+                    <button><a href="/customer/order/">Place Order</a></button>
                 </td>
                 <td class="mobileHide" colspan="6">
                     <button><a href="/customer/order/">Place Order</a></button>

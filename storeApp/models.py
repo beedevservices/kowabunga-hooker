@@ -6,6 +6,15 @@ import datetime
 import string
 import random
 
+def genOrderCode():
+    N = 4
+    res01 = ''.join(random.choices(string.ascii_letters, k=N))
+    res02 = ''.join(random.choices(string.ascii_letters, k=N))
+    stamp = datetime.date.today()
+    orderCode = f'{stamp.year}-{res01}-{stamp.day}-{res02}-{stamp.month}'
+    print(orderCode, stamp, res01, res02)
+    return orderCode
+
 class Category(models.Model):
     name= models.CharField(max_length=255)
     adultOnly = models.BooleanField(default=1)
@@ -45,21 +54,13 @@ class Product(models.Model):
         return self.name
     
 class OrderManager(models.Manager):
-    def genOrderCode(self):
-        N = 4
-        res01 = ''.join(random.choices(string.ascii_letters, k=N))
-        res02 = ''.join(random.choices(string.ascii_letters, k=N))
-        stamp = datetime.date.today()
-        orderCode = f'{stamp.year}-{res01}-{stamp.day}-{res02}-{stamp.month}'
-        print(orderCode, stamp, res01, res02)
-        return orderCode
-
     def validate(self):
-        while True:
-            orderNum = self.genOrderCode()
-            orderCheck = self.filter(orderNum=orderNum)
-            if not orderCheck:
-                return orderNum
+        orderNum = genOrderCode()
+        orderCheck = self.filter(orderNum = orderNum)
+        if orderCheck:
+            orderNum = genOrderCode()
+        return orderNum
+
 
 
 class Order(models.Model):
@@ -73,7 +74,7 @@ class Order(models.Model):
     objects = OrderManager()
 
     def __str__(self):
-        return self.order
+        return self.orderNum
         
 class OrderItem(models.Model):
     orderNum = models.ForeignKey(Order, related_name='theOrder', on_delete=CASCADE)
@@ -85,3 +86,14 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f'{self.orderNum.orderNum} {self.product.name}'
+    
+
+class Invoice(models.Model):
+    theCustomer = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
+    cart = models.OneToOneField(Order, unique=True, on_delete=models.CASCADE)
+    orderDate = models.DateField (default=datetime.datetime.today)
+    pdf = models.FileField(upload_to='invoices')
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f'{self.theCustomer.lastName} - {self.cart.orderNUmber}'

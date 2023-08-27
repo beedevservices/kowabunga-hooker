@@ -24,3 +24,16 @@ def cart(request):
             'url': url,
         }
         return render(request, 'cart.html', context)
+    
+def thankYou(request):
+    if 'user_id' not in request.session:
+        user = False
+        return redirect('/')
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+        cart = request.session['cart']
+        context = {
+            'user': user,
+            'cart': cart
+        }
+        return render(request, 'thankyou.html', context)
