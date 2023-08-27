@@ -1,0 +1,30 @@
+.flexrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.flexcolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+table,
+td,
+tr,
+th {
+  text-align: center;
+  padding: 0.5em;
+}
+tr,
+th,
+td {
+  border-bottom: 2px solid #b4d9e4;
+}
+.start {
+  text-align: left;
+}
+.end {
+  text-align: right;
+}

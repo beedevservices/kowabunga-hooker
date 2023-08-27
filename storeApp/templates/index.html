@@ -6,20 +6,21 @@
 <body>
     {% block header %} {% include 'block/header.html' %} {% endblock header %}
     {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
-    <main>
+    <main class="screen">
         <div class="left">
             <h2>Select Category</h2>
             <a href="javascript:void(0);" class="icon" onclick="menu('myCats')"><i class="fa fa-bars"></i></a>
             <nav id="myCats">
-                <a href="/0/" class="category">All Products</a>
+                <a href="/0/" class="category custom-btn btn"><span>All Products</span></a>
                 {% for cat in categories %}
-                    <a href="/{{cat.id}}/" class="category">{{cat.name}}</a>
+                    <a href="/{{cat.id}}/" class="category custom-btn btn"><span>{{cat.name}}</span></a>
                 {% endfor %}
             </nav>
         </div>
         <div class="right">
             <h2>All Products</h2>
-            {% for prod in products %}
+            <div class="screen">
+                {% for prod in products %}
                 <div class="column">
                     <img src="/media/{{prod.image}}" alt="{{prod.name}}">
                     <h4>{{prod.name}}</h4>
@@ -60,6 +61,7 @@
                     {% endif %}
                 </div>
             {% endfor %}
+            </div>
         </div>
     </main>
     {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
