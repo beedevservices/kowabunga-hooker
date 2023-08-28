@@ -37,3 +37,22 @@ def thankYou(request):
             'cart': cart
         }
         return render(request, 'thankyou.html', context)
+    
+def viewProduct(request, prod_name):
+    url = '/cart/'
+    request.session['url'] = url
+    if 'user_id' not in request.session:
+        user = False
+        url = '/cart/'
+        request.session['url'] = url
+        return redirect('/logReg/')
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+        cart = request.session['cart']
+        product = Product.objects.filter(name=prod_name)
+    context = {
+        'user': user,
+        'cart': cart,
+        'product': product,
+    }
+    return render(request, 'viewProduct.html', context)

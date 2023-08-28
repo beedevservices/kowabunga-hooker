@@ -1,10 +1,6 @@
 @import './base.less';
 
 
-
-
-
-
 @media @850 {
     body {
 
@@ -162,6 +158,58 @@
                     .flexrow();
                     flex-wrap: wrap;
                 }
+            }
+        }
+    }
+}
+
+@media @1000 {
+    body {
+        .screen {
+            .right {
+                .screen {
+                    align-items: flex-start;
+                }
+            }
+        }
+    }
+}
+
+@media @1250 {
+    body {
+        main {
+            .right {
+                div {
+                    .column {
+                        img {
+                            max-width: 300px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media @1400 {
+    body {
+        .screen  {
+            .left {
+                margin-right: 50em;
+            }
+            .right {
+                width: 65%;
+            }
+        }
+    }
+}
+
+@media @1650 {
+    body {
+        .screen {
+            .left {
+                margin-right: 70em;
             }
         }
     }

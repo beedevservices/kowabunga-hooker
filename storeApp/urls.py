@@ -13,6 +13,7 @@ urlpatterns = [
     path('logReg/', views.logReg),
     path('logout/', views.logout),
     path('thankyou/', views.thankYou),
+    path('products/<str:prod_name>/', views.viewProduct),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

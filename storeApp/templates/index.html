@@ -21,45 +21,47 @@
             <h2>All Products</h2>
             <div class="screen">
                 {% for prod in products %}
-                <div class="column">
-                    <img src="/media/{{prod.image}}" alt="{{prod.name}}">
-                    <h4>{{prod.name}}</h4>
-                    {% if prod.price %}
-                        <h4>${{prod.price}}</h4>
-                    {% else %}
-                        <h4>TBD</h4>
-                    {% endif %}
-                    {% if prod.madeToOrder == True %}
-                        <h4>Product Made To Order</h4>
-                    {% endif %}
-                    {% if prod.id|inTheCart:request.session.cart %}
-                        <div class="row">
+                <a href="products/{{prod.name}}">
+                    <div class="column">
+                        <img src="/media/{{prod.image}}" alt="{{prod.name}}">
+                        <h4>{{prod.name}}</h4>
+                        {% if prod.price %}
+                            <h4>${{prod.price}}</h4>
+                        {% else %}
+                            <h4>TBD</h4>
+                        {% endif %}
+                        {% if prod.madeToOrder == True %}
+                            <h4>Product Made To Order</h4>
+                        {% endif %}
+                        {% if prod.id|inTheCart:request.session.cart %}
+                            <div class="row">
+                                <form action="/add/" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="prod_id" value="{{prod.id}}">
+                                    <input type="hidden" name="price" value="{{prod.price}}">
+                                    <input type="hidden" name="remove" value="True">
+                                    <button> - </button>
+                                </form>
+                                <button>{{prod.id|prodQuantity:request.session.cart}} in Cart</button>
+                                <form action="/add/" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="prod_id" value="{{prod.id}}">
+                                    <input type="hidden" name="price" value="{{prod.price}}">
+                                    <input type="hidden" name="add" value="True">
+                                    <button> + </button>
+                                </form>
+                            </div>
+                        {% else %}
                             <form action="/add/" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="prod_id" value="{{prod.id}}">
                                 <input type="hidden" name="price" value="{{prod.price}}">
-                                <input type="hidden" name="remove" value="True">
-                                <button> - </button>
+                                <input type="hidden" name="new" value="True">
+                                <button>Add to Cart</button>
                             </form>
-                            <button>{{prod.id|prodQuantity:request.session.cart}} in Cart</button>
-                            <form action="/add/" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="prod_id" value="{{prod.id}}">
-                                <input type="hidden" name="price" value="{{prod.price}}">
-                                <input type="hidden" name="add" value="True">
-                                <button> + </button>
-                            </form>
-                        </div>
-                    {% else %}
-                        <form action="/add/" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="prod_id" value="{{prod.id}}">
-                            <input type="hidden" name="price" value="{{prod.price}}">
-                            <input type="hidden" name="new" value="True">
-                            <button>Add to Cart</button>
-                        </form>
-                    {% endif %}
-                </div>
+                        {% endif %}
+                    </div>
+                </a>
             {% endfor %}
             </div>
         </div>

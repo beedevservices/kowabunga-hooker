@@ -193,3 +193,26 @@ td {
     flex-wrap: wrap;
   }
 }
+@media only screen and (min-width: 1000px) {
+  body .screen .right .screen {
+    align-items: flex-start;
+  }
+}
+@media only screen and (min-width: 1250px) {
+  body main .right div .column img {
+    max-width: 300px;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  body .screen .left {
+    margin-right: 50em;
+  }
+  body .screen .right {
+    width: 65%;
+  }
+}
+@media only screen and (min-width: 1650px) {
+  body .screen .left {
+    margin-right: 70em;
+  }
+}

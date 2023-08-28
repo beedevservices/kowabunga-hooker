@@ -103,7 +103,12 @@ body main .right {
   justify-content: center;
   align-items: center;
 }
-body main .right div .column {
+body main .right div a {
+  color: #020612;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+body main .right div a .column {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -112,13 +117,13 @@ body main .right div .column {
   padding: 0.5em;
   margin: 0.5em;
 }
-body main .right div .column img {
+body main .right div a .column img {
   max-width: 200px;
 }
-body main .right div .column h4 {
+body main .right div a .column h4 {
   align-self: flex-start;
 }
-body main .right div .column .row {
+body main .right div a .column .row {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -380,5 +385,28 @@ body footer {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  body .screen .right .screen {
+    align-items: flex-start;
+  }
+}
+@media only screen and (min-width: 1250px) {
+  body main .right div .column img {
+    max-width: 300px;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  body .screen .left {
+    margin-right: 50em;
+  }
+  body .screen .right {
+    width: 65%;
+  }
+}
+@media only screen and (min-width: 1650px) {
+  body .screen .left {
+    margin-right: 70em;
   }
 }

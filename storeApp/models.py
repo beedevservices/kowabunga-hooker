@@ -53,6 +53,13 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+class ProductImages(models.Model):
+    image= models.ImageField(upload_to='products')
+    prod = models.ForeignKey(Product, related_name='theProduct', on_delete=CASCADE)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+
+
 class OrderManager(models.Manager):
     def validate(self):
         orderNum = genOrderCode()
