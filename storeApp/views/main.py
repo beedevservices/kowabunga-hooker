@@ -79,12 +79,15 @@ def addToCart(request):
     print('product',product, 'cart', cart, 'item', item, 'remove', remove, 'add', add, 'price', thePrice)
     if add:
         plus = cart.get(str(item.id))['quantity']
-        price = int(cart.get(str(item.id))['price'])
-        total = int(cart.get(str(item.id))['total'])
         plus = plus+1
-        total = price * plus
-        cart[str(product)]['quantity'] = plus
+        if cart.get(str(item.id))['price'] != 'None':
+            price = int(cart.get(str(item.id))['price'])
+            total = int(cart.get(str(item.id))['total'])
+            total = price * plus
+        else:
+            total =  'TBD'
         cart[str(product)]['total'] = total
+        cart[str(product)]['quantity'] = plus
         print('add more to the cart', cart)
     elif remove:
         min = cart.get(str(item.id))['quantity']
@@ -123,30 +126,6 @@ def addToCart(request):
             item['total'] = total
             cart[str(product)] = item
             print('new cart', cart)
-    # if cart:
-    #     pass
-    # else:
-    #     cart = {}
-    #     cart[str{prod_id}] = {
-    #         'quantity': 1,
-    #         'price': 
-    #     }
-    # if cart:
-    #     quantity = cart.get(product)
-    #     print(cart, quantity)
-    #     if quantity:
-    #         if remove:
-    #             if quantity <= 1:
-    #                 cart.pop(product)
-    #             else:
-    #                 cart[product] = quantity-1
-    #         else:
-    #             cart[product]  = quantity+1
-    #     else:
-    #         cart[product] = 1
-    # else:
-    #     cart = {}
-    #     cart[product] = 1
     request.session['cart'] = cart
     print(request.session['cart'])
     return redirect('/')

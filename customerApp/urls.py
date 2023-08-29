@@ -11,6 +11,7 @@ urlpatterns = [
     path('order/', views.placeOrder),
     path('profile/', views.profile),
     path('confirm/', views.confirmOrder),
+    path('generateInvoice/', views.generateInvoice),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -27,7 +27,7 @@
                     <td class="mobileHide bold"></td>
                     <td class="deskHide">
                         {% if prod|noPrice == True %}
-                            TBD
+                        {{prod.id|prodQuantity:request.session.cart}} | TBD
                         {% else %}
                             {{prod.price}} | {{prod.id|prodQuantity:request.session.cart}} | {{prod|prodTotal:request.session.cart}} 
                         {% endif %}
