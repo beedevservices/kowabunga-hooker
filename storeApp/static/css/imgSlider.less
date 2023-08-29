@@ -1,0 +1,36 @@
+@import './base/base.less';
+
+body {
+    .imgScreen {
+        .flexcolumn();
+        flex-direction: column-reverse;
+
+        .imgRight {
+            .flexcolumn();
+        }
+        .imgLeft {
+            .flexrow();
+
+            .column {
+                .flexcolumn();
+
+                .thumb {
+                    max-width: 75px;
+                }
+
+            }
+            #current {
+                max-width: 250px;
+            }
+        }
+    }
+}
+
+@media @850 {
+    body {
+        .imgScreen {
+            .flexrow();
+            justify-content: space-evenly;
+        }
+    }
+}

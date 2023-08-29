@@ -3,12 +3,29 @@
 <!DOCTYPE html>
 <html lang="en">
     {% block head %} {% include 'block/head.html' %} {% endblock head %}
+    <link rel="stylesheet" href="{% static './css/imgSlider.css' %}">
 <body>
     {% block header %} {% include 'block/header.html' %} {% endblock header %}
     {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
-    <main>
-
+    <main class="imgScreen">
+        <div class="imgLeft">
+            <div class="column">
+                {% for image in images %}
+                    <img src="/media/{{image.image}}" alt="" class="thumb" id="{{forloop.counter}}" onclick="changeImg('{{forloop.counter}}')">
+                {% endfor %}
+            </div>
+            <img src="/media/{{product.image}}" alt="" id="current">
+        </div>
+        <div class="imgRight">
+            <h1>{{product.name}}</h1>
+            <p>{{product.description}}</p>
+            <div class="row">
+                <p>{{product.price}}</p>
+                <p>{{product.madeToOrder}}</p>
+            </div>
+        </div>
     </main>
     {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
+    <script src="{% static './js/imgSlider.js' %}"></script>
 </body>
 </html>

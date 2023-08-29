@@ -43,6 +43,32 @@ def catFilter(request, id):
     request.session['filtered'] = id
     return redirect('/')
 
+
+def viewProduct(request, prod_name):
+    url = '/cart/'
+    request.session['url'] = url
+    if 'user_id' not in request.session:
+        user = False
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+    cart = request.session['cart']
+    product = Product.objects.get(name=prod_name)
+    categories = Category.objects.all().values()
+    theImages = ProductImages.objects.filter(prod_id=product.id)
+    images = []
+    images.append(product)
+    for i in theImages:
+        images.append(i)
+    print(images)
+    context = {
+        'user': user,
+        'cart': cart,
+        'product': product,
+        'categories': categories,
+        'images': images,
+    }
+    return render(request, 'viewProduct.html', context)
+
 def addToCart(request):
     product = request.POST.get('prod_id')
     remove = request.POST.get('remove')
