@@ -170,109 +170,98 @@ def place_order(request):
     return redirect('success_page')
 
 ```
+```python
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
 
+def generate_cart_pdf(cart_data):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="cart.pdf"'
 
+    doc = SimpleDocTemplate(response, pagesize=letter)
 
+    # Convert your cart_data into a list of rows for the table
+    cart_rows = [
+        ['Item #', 'Name', 'Price', 'Quantity', 'Total'],
+        # ... Convert cart_data into rows ...
+    ]
 
+    # Create a table and style
+    table = Table(cart_rows)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
 
+    # Build the PDF document
+    story = [table]
+    doc.build(story)
 
+    return response
 
-
-
-
-
-
-Session
-report_data = [
-    {'student_id': 1, 'q1_grade': 90, 'q2_grade': 85, 'q3_grade': 78, 'q4_grade': 92, 'year_average': 86.25},
-    {'student_id': 2, 'q1_grade': 75, 'q2_grade': 80, 'q3_grade': 82, 'q4_grade': 88, 'year_average': 81.25},
-    # ... and so on
+```
+```python
+cart_rows = [
+    ['Item #', 'Name', 'Price', 'Quantity', 'Total']
 ]
-request.session['report_data'] = report_data
 
+for item_id, item_data in cart_data.items():
+    # Fetch the corresponding product name, assuming you have a products lookup
+    product_name = products_lookup.get(item_id, 'Unknown Product')
 
-models
+    # Extract item details
+    quantity = item_data['quantity']
+    price = item_data['price']
+    total = item_data['total']
 
-class Shelf(models.Model):
-    shelf_number = models.CharField(max_length=10, unique=True)
-    # Add any other fields relevant to the shelf
+    # Append row to cart_rows
+    cart_rows.append([item_id, product_name, price, quantity, total])
+```
+```python
+    order_details_table = Table(orderDetails)
+    order_details_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+
+    # Draw the table on the PDF canvas
+    w, h = order_details_table.wrapOn(p, 0, 0)
+    order_details_table.drawOn(p, 60, 550 - h)
+```
+```python
+from webcolors import rgb_to_name
+named_color = rgb_to_name((255,0,0), spec='css3')
+print(named_color)
+```
+
+```python
+from scipy.spatial import KDTree
+from webcolors import (
+    css3_hex_to_names,
+    hex_to_rgb,
+)
+def convert_rgb_to_names(rgb_tuple):
     
-    def __str__(self):
-        return f"Shelf {self.shelf_number}"
-
-class Item(models.Model):
-    name = models.CharField(max_length=100)
-    # Add any other fields relevant to the item
+    # a dictionary of all the hex and their respective names in css3
+    css3_db = css3_hex_to_names
+    names = []
+    rgb_values = []
+    for color_hex, color_name in css3_db.items():
+        names.append(color_name)
+        rgb_values.append(hex_to_rgb(color_hex))
     
-    def __str__(self):
-        return self.name
-
-class Inventory(models.Model):
-    shelf = models.ForeignKey(Shelf, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    
-    def __str__(self):
-        return f"{self.item} - {self.shelf} ({self.quantity})"
-
-views
-
-# views.py
-def process_shelf(request, shelf_number):
-    shelf_data_key = f'shelf{shelf_number}_data'
-    shelf_data = request.session.get(shelf_data_key, [])
-    
-    if request.method == 'POST':
-        shelf_formset = InventoryItemForm(request.POST, queryset=shelf_data)
-        if shelf_formset.is_valid():
-            # Process and save the formset data for the specific shelf
-            # ...
-            del request.session[shelf_data_key]  # Clear session data after processing
-            return redirect('success_url')  # Redirect to a success page
-    else:
-        shelf_formset = InventoryItemForm(queryset=shelf_data)
-    
-    return render(request, 'shelf_template.html', {'shelf_formset': shelf_formset})
-
-
-
-
-
-
-
-from django.shortcuts import render, redirect
-from .models import Order, LineItem
-
-def place_order(request):
-    # Step 1: Retrieve cart items from session
-    cart_items = request.session.get('cart_items', [])
-
-    # Step 2: Calculate order total
-    order_total = sum(item['linePriceTotal'] for item in cart_items)
-
-    # Step 3: Create an Order instance
-    order = Order.objects.create(
-        customer=request.user,
-        orderNumber="generate_order_number_logic_here",  # Implement your logic
-        orderTotal=order_total,
-        # ... other order fields
-    )
-
-    # Step 4: Associate Line Items with the Order
-    for cart_item in cart_items:
-        line_item = LineItem.objects.create(
-            product=cart_item['product'],  # You need to adjust this based on your cart structure
-            customer=request.user,
-            quantity=cart_item['quantity'],
-            linePriceTotal=cart_item['linePriceTotal'],
-            # ... other line item fields
-        )
-        order.items.add(line_item)  # Associate line item with the order
-
-    # Step 5: Save the Order and Line Items
-    order.save()
-
-    # Clear cart items from session after the order is placed
-    request.session['cart_items'] = []
-
-    return redirect('order_placed')  # Redirect to a success page or do something else
+    kdt_db = KDTree(rgb_values)
+    distance, index = kdt_db.query(rgb_tuple)
+    return f'closest match: {names[index]}'
+```

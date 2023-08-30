@@ -32,8 +32,12 @@ def thankYou(request):
     else:
         user = User.objects.get(id=request.session['user_id'])
         cart = request.session['cart']
+        request.session['order_id'] = None
+        request.session['cart'] = {}
+        theOrder = request.session['theOrder']
         context = {
             'user': user,
-            'cart': cart
+            'cart': cart,
+            'theOrder': theOrder,
         }
         return render(request, 'thankyou.html', context)

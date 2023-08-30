@@ -7,7 +7,8 @@
     {% block header %} {% include 'block/header.html' %} {% endblock header %}
     {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
     <main>
-        <iframe src="{% url 'generate_pdf' %}" width="100%" height="800"></iframe>
+        <button><a href="/customer/saveInvoice/">Submit Order</a></button>
+        <iframe src="{% url 'invoice' %}" width="85%" height="800"></iframe>
     </main>
     {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
 </body>

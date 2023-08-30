@@ -4,9 +4,11 @@ from storeApp.models import *
 from customerApp.models import *
 from customerApp.util import *
 from django.views import View
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from reportlab.lib import colors
 import io
 
 def placeOrder(request):
@@ -57,30 +59,68 @@ def placeOrder(request):
     toUpdate.itemCount = itemCount
     toUpdate.orderTotal = orderTotal
     toUpdate.save()
-    # request.session['cart'] = {}
     request.session['order_id'] = newOrder.id
-    # sendOrderEmail(customer, updatedOrder)
-    # return redirect('/thankyou/')
-    return redirect('/customer/generateInvoice/')
-    # return redirect('/customer/confirm/')
+    print('order', request.session['order_id'], 'user', request.session['user_id'])
+    # return redirect('/customer/generateInvoice/')
+    return redirect('/customer/confirm/')
 
-  
-def generateInvoice(request):
+def generateInvoice(user_id, order_id):
+    products = Product.objects.all().values()
+    order = Order.object.get(id=order_id)
+    user = User.objects.get(id=user_id)
+    theOrderItems = OrderItem.objects.filter(orderNum_id=order.id)
+    company = {
+        'name': 'Kowabunga Hooker',
+        'email': 'orders@kowabunga-hooker.com'
+    }
+    orderItems = [
+        ['Item Name', 'Price', 'Quantity', 'Total']
+    ]
+    for i in theOrderItems:
+        for prod in products:
+            if(i.product_id == prod['id']):
+                name = prod['name']
+                quantity = i.quantity
+                if(prod['price'] == None):
+                    price = 'TBD'
+                else:
+                    price = prod['price']
+                if(i.total == 'True'):
+                    total = 'TBD'
+                else: 
+                    total = i.total
+                orderItems.append([name, price, quantity, total])
     buffer = io.BytesIO()
-    # Create a PDF object
     p = canvas.Canvas(buffer, pagesize=letter)
-    # Add content to the PDF
-    p.drawString(700, 750, "Hello, World!")
-
-    # Close the PDF object
+    p.drawString(60, 750, f"{company['name']}")
+    p.drawString(60, 730, f"{company['email']}")
+    p.drawString(340, 670, f"{user.firstName} {user.lastName}")
+    p.drawString(340, 650, f"{user.profile.address01} {user.profile.address02}")
+    p.drawString(340, 630, f"{user.profile.city}, {user.profile.state} {user.profile.zip}")
+    p.drawString(340, 610, f"Order #:{order.orderNum}")
+    p.drawString(340, 590, f"{user.profile.phone}")
+    orderItemsTable = Table(orderItems, colWidths=[120, 120, 120, 120], rowHeights=[30, 30, 30, 30])
+    orderItemsTable.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.seagreen),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.antiquewhite),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.antiquewhite),
+        ('GRID', (0, 0), (-1, -1), 1, colors.darkslateblue),
+    ]))
+    w, h = orderItemsTable.wrapOn(p, 0, 0)
+    orderItemsTable.drawOn(p, 60, 550 - h)
+    p.drawString(60, 310, f'Order Total: ${order.orderTotal}')
+    p.drawString(60, 290, f'Total Item Count: {order.itemCount}')
+    p.drawString(60, 270, f'Thank you {user.firstName}, for placing order # {order.orderNum}.')
+    p.drawString(60, 250, f'I will reach out as soon as possible to get and give further details on your order.')
+    p.drawString(60, 30, f'orders@kowabunga-hooker.com')
     p.save()
-
-    # Move the buffer's position back to the beginning
     buffer.seek(0)
-
-    # Set the response content type
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="example.pdf"'
+    response['Content-Disposition'] = 'inline; filename="invoice.pdf"'
     response.write(buffer.read())
 
     return response
@@ -89,10 +129,26 @@ def generateInvoice(request):
 def confirmOrder(request):
     theOrder = Order.objects.get(id=request.session['order_id'])
     user = User.objects.get(id=request.session['user_id'])
-    cart = request.session['cart']
+    cart = request.session['order_id']
     context = {
         'theOrder': theOrder,
         'user': user,
         'cart': cart,
     }
     return render(request, 'confirmOrder.html', context)
+
+def saveInvoice(request):
+    user = User.objects.get(id=request.session['user_id'])
+    order = Order.objects.get(id=request.session['order_id'])
+    pdfContent = generateInvoice(user, order)
+    theOrder = Order.objects.get(id=request.session['order_id'])
+    cart = request.session['order_id']
+    invoice = Invoice.objects.create(
+        theCustomer = user,
+        cart_id = cart,
+        pdf = pdfContent,
+    )
+    messages.error(request, 'Order Created')
+    theOrder = theOrder.id + user.firstName + theOrder.orderNum
+    request.session['invoice'] = theOrder
+    return redirect('/thankyou/')
