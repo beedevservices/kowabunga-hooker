@@ -66,7 +66,7 @@ def placeOrder(request):
 
 def generateInvoice(user_id, order_id):
     products = Product.objects.all().values()
-    order = Order.object.get(id=order_id)
+    order = Order.objects.get(id=order_id)
     user = User.objects.get(id=user_id)
     theOrderItems = OrderItem.objects.filter(orderNum_id=order.id)
     company = {
@@ -129,6 +129,9 @@ def generateInvoice(user_id, order_id):
 def confirmOrder(request):
     theOrder = Order.objects.get(id=request.session['order_id'])
     user = User.objects.get(id=request.session['user_id'])
+    # order = theOrder.id
+    # user = theUser.id
+    # generateInvoice(user, order)
     cart = request.session['order_id']
     context = {
         'theOrder': theOrder,
