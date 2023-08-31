@@ -7,9 +7,14 @@
     {% block header %} {% include 'block/header.html' %} {% endblock header %}
     {% block flash %} {% include 'block/flash.html' %} {% endblock flash %}
     <main>
-        <button><a href="/customer/saveInvoice/">Submit Order</a></button>
-        <iframe src="{% url 'invoice' user_id=request.session.user_id order_id=request.session.order_id %}" width="85%" height="800"></iframe>
+        <button id="savePdf">Submit Order</button>
+        <iframe src="{% url 'invoice' order_id=request.session.order_id %}" width="85%" height="800"></iframe>
     </main>
     {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
+    <script>
+        document.getElementById('savePdf').addEventListener('click', function() {
+            window.location.href = "{% url 'saveInvoice' %}";
+        });
+    </script>
 </body>
 </html>

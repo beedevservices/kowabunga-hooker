@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'storeApp.apps.StoreappConfig',
     'customerApp.apps.CustomerappConfig',
     'api.apps.ApiConfig',
+    'theAdmin.apps.TheadminConfig',
     'corsheaders',
 ]
 

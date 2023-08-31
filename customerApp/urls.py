@@ -11,8 +11,12 @@ urlpatterns = [
     path('order/', views.placeOrder),
     path('profile/', views.profile),
     path('confirm/', views.confirmOrder),
-    path('generateInvoice/<int:user_id>/<int:order_id>/', views.generateInvoice, name='invoice'),
-    path('saveInvoice/', views.saveInvoice),
+    path('generateInvoice/<int:order_id>/', views.generateInvoice, name='invoice'),
+    path('saveInvoice/', views.saveInvoice, name='saveInvoice'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+    # http://127.0.0.1:8000/media/invoices/2023-MRdQ-30-oURn-8
+    # http://127.0.0.1:8000/media/invoices/2023-MRdQ-30-oURn-8.pdf

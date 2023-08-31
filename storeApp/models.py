@@ -96,11 +96,11 @@ class OrderItem(models.Model):
     
 
 class Invoice(models.Model):
-    theCustomer = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
+    theCustomer = models.ForeignKey(User, related_name='custOrder',on_delete=models.CASCADE)
     cart = models.OneToOneField(Order, unique=True, on_delete=models.CASCADE)
     orderDate = models.DateField(default=datetime.datetime.today)
     pdf = models.FileField(upload_to='invoices')
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return f'{self.theCustomer.lastName} - {self.cart.orderNUmber}'
+        return f'{self.theCustomer.lastName} - {self.cart.orderNum}'

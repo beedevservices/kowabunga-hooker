@@ -1,6 +1,7 @@
 from django.shortcuts import render , redirect , HttpResponseRedirect
 from storeApp.models import *
 from customerApp.models import *
+from customerApp.util import *
 
 
 def cart(request):
@@ -34,10 +35,13 @@ def thankYou(request):
         cart = request.session['cart']
         request.session['order_id'] = None
         request.session['cart'] = {}
-        theOrder = request.session['theOrder']
+        custOrder = request.session['invoice']
+        order = Order.objects.get(orderNum=custOrder)
+        print('order',order.id)
+        sendOrderEmail(user, order)
         context = {
             'user': user,
             'cart': cart,
-            'theOrder': theOrder,
+            'custOrder': custOrder,
         }
         return render(request, 'thankyou.html', context)

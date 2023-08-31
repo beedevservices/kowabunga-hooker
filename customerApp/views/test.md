@@ -265,3 +265,40 @@ def convert_rgb_to_names(rgb_tuple):
     distance, index = kdt_db.query(rgb_tuple)
     return f'closest match: {names[index]}'
 ```
+```python
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.urls import reverse
+
+def sendOrderEmail(user, order):
+    subject = f'Thank you, {user.first_name} for your order'
+    message = f'{user.first_name}, thank you for placing an order. This is your confirmation email.\nYour order number is: {order.orderNum}\nYour current order total is: {order.orderTotal}\n\nI will reach out with the next steps.\n\nThe Kowabunga Hooker\nkaila@kowabunga-hooker.com\nhttps://kowabunga-hooker.com'
+    email_from = settings.EMAIL_HOST_ORDER_USER
+    recipient_list = [user.email, settings.EMAIL_HOST_ORDER_USER]
+
+    # Get the URL for the invoice view with the order_id parameter
+    invoice_url = reverse('invoice', args=[order.id])
+
+    # Attach the PDF file or provide a link to the invoice view
+    pdf_file_path = order.invoice.pdf.path  # Adjust the attribute according to your model
+    pdf_attachment = None
+    if pdf_file_path:
+        # Attach the PDF file if available
+        pdf_attachment = open(pdf_file_path, 'rb')
+
+    # Create an EmailMessage instance
+    email = EmailMessage(subject, message, email_from, recipient_list)
+    
+    # Attach the PDF file or add the link to the body of the email
+    if pdf_attachment:
+        email.attach('invoice.pdf', pdf_attachment.read(), 'application/pdf')
+    else:
+        email.body += f'\nYou can also view your invoice here: {settings.BASE_URL}{invoice_url}'
+    
+    # Send the email
+    email.send()
+
+    # Close the attached file if opened
+    if pdf_attachment:
+        pdf_attachment.close()
+```

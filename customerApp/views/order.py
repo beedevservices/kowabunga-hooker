@@ -10,6 +10,9 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import io
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+import os
 
 def placeOrder(request):
     url = request.session['url']
@@ -61,13 +64,13 @@ def placeOrder(request):
     toUpdate.save()
     request.session['order_id'] = newOrder.id
     print('order', request.session['order_id'], 'user', request.session['user_id'])
-    # return redirect('/customer/generateInvoice/')
+    # return redirect(f'/customer/generateInvoice/{newOrder.id}/')
     return redirect('/customer/confirm/')
 
 def generateInvoice(user_id, order_id):
     products = Product.objects.all().values()
     order = Order.objects.get(id=order_id)
-    user = User.objects.get(id=user_id)
+    user = User.objects.get(id=order.customer_id)
     theOrderItems = OrderItem.objects.filter(orderNum_id=order.id)
     company = {
         'name': 'Kowabunga Hooker',
@@ -90,6 +93,12 @@ def generateInvoice(user_id, order_id):
                 else: 
                     total = i.total
                 orderItems.append([name, price, quantity, total])
+    rowCount = []
+    for i in orderItems:
+        rowCount.append(30)
+    print(rowCount)
+   
+
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=letter)
     p.drawString(60, 750, f"{company['name']}")
@@ -99,7 +108,7 @@ def generateInvoice(user_id, order_id):
     p.drawString(340, 630, f"{user.profile.city}, {user.profile.state} {user.profile.zip}")
     p.drawString(340, 610, f"Order #:{order.orderNum}")
     p.drawString(340, 590, f"{user.profile.phone}")
-    orderItemsTable = Table(orderItems, colWidths=[120, 120, 120, 120], rowHeights=[30, 30, 30, 30])
+    orderItemsTable = Table(orderItems, colWidths=[120, 120, 120, 120], rowHeights=rowCount)
     orderItemsTable.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.seagreen),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.antiquewhite),
@@ -125,13 +134,9 @@ def generateInvoice(user_id, order_id):
 
     return response
     
-
 def confirmOrder(request):
     theOrder = Order.objects.get(id=request.session['order_id'])
     user = User.objects.get(id=request.session['user_id'])
-    # order = theOrder.id
-    # user = theUser.id
-    # generateInvoice(user, order)
     cart = request.session['order_id']
     context = {
         'theOrder': theOrder,
@@ -143,15 +148,23 @@ def confirmOrder(request):
 def saveInvoice(request):
     user = User.objects.get(id=request.session['user_id'])
     order = Order.objects.get(id=request.session['order_id'])
-    pdfContent = generateInvoice(user, order)
+    pdfContent = generateInvoice(user.id, order.id)
     theOrder = Order.objects.get(id=request.session['order_id'])
     cart = request.session['order_id']
+    # Save the PDF content using Django's file storage
+    pdf_path = os.path.join('invoices', f'{order.orderNum}.pdf')
+    pdf_file = ContentFile(pdfContent.getvalue())
+    pdf_storage_path = default_storage.save(pdf_path, pdf_file)
+
+    # Create an Invoice instance
     invoice = Invoice.objects.create(
-        theCustomer = user,
-        cart_id = cart,
-        pdf = pdfContent,
+        theCustomer=user,
+        cart=order,
+        orderDate=datetime.datetime.today(),
+        pdf=pdf_storage_path,  # Save the path to the PDF file
     )
     messages.error(request, 'Order Created')
-    theOrder = theOrder.id + user.firstName + theOrder.orderNum
+    print('invoice', invoice.id)
+    theOrder = f'{theOrder.orderNum}'
     request.session['invoice'] = theOrder
     return redirect('/thankyou/')
