@@ -12,7 +12,9 @@
             <a href="/cart/">Cart <span class="cart">{{request.session.cart|length}}</span></a>
             {% if user %}
                 <a href="/customer/profile/">Profile</a>
-                <a href="/customer/orders/">Your Orders</a>
+                {% if navOrders != False %}
+                    <a href="/customer/myOrders/">Your Orders</a>
+                {% endif %}
                 <a href="/logout/">Logout</a>
             {% else %}
                 <a href="/logReg/">Login</a>

@@ -45,34 +45,65 @@
                 </tr>
             {% endif %}
         </table>
-        <form action="/customer/profile/edit">
-            {% csrf_token %}
-            <section>
-                <label for="address01">Address</label>
-                <input type="text" name="address01" value="{{user.profile.address01}}">
-            </section>
-            <section>
-                <label for="address02">Apt # / PO Box</label>
-                <input type="text" name="address02" value="{{user.profile.address02}}">
-            </section>
-            <section>
-                <label for="city">City</label>
-                <input type="text" name="city" value="{{user.profile.city}}">
-            </section>
-            <section>
-                <label for="state">State</label>
-                <input type="text" name="state" value="{{user.profile.state}}">
-            </section>
-            <section>
-                <label for="zip">Zip Code</label>
-                <input type="text" name="zip" value="{{user.profile.zip}}">
-            </section>
-            <section>
-                <label for="phone">Phone</label>
-                <input type="text" name="phone" value="{{user.profile.phone}}">
-            </section>
-            <button>Update Address</button>
-        </form>
+        {% if user.profile.address01 %}
+            <form action="/customer/profile/edit" method="post">
+                {% csrf_token %}
+                <section>
+                    <label for="address01">Address</label>
+                    <input type="text" name="address01" value="{{user.profile.address01}}">
+                </section>
+                <section>
+                    <label for="address02">Apt # / PO Box</label>
+                    <input type="text" name="address02" value="{{user.profile.address02}}">
+                </section>
+                <section>
+                    <label for="city">City</label>
+                    <input type="text" name="city" value="{{user.profile.city}}">
+                </section>
+                <section>
+                    <label for="state">State</label>
+                    <input type="text" name="state" value="{{user.profile.state}}">
+                </section>
+                <section>
+                    <label for="zip">Zip Code</label>
+                    <input type="text" name="zip" value="{{user.profile.zip}}">
+                </section>
+                <section>
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" value="{{user.profile.phone}}">
+                </section>
+                <button>Update Address</button>
+            </form>
+        {% else %}
+            <form action="/customer/profile/edit/" method="post">
+                {% csrf_token %}
+                <section>
+                    <label for="address01">Address</label>
+                    <input type="text" name="address01">
+                </section>
+                <section>
+                    <label for="address02">Apt # / PO Box</label>
+                    <input type="text" name="address02">
+                </section>
+                <section>
+                    <label for="city">City</label>
+                    <input type="text" name="city">
+                </section>
+                <section>
+                    <label for="state">State</label>
+                    <input type="text" name="state" >
+                </section>
+                <section>
+                    <label for="zip">Zip Code</label>
+                    <input type="text" name="zip" >
+                </section>
+                <section>
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" >
+                </section>
+                <button>Enter Address</button>
+            </form>
+        {% endif %}
     </main>
     {% block footer %} {% include 'block/footer.html' %} {% endblock footer %}
 </body>

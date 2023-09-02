@@ -1,26 +1,27 @@
-from django.shortcuts import render , redirect , HttpResponseRedirect
+from django.shortcuts import render , redirect , HttpResponseRedirect, get_object_or_404
 from django.contrib import messages
-from storeApp.models import *
-from customerApp.models import *
-from customerApp.util import *
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.http import HttpResponse, FileResponse
 from django.views import View
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import io
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 import os
+from storeApp.models import *
+from customerApp.models import *
+from customerApp.util import *
+
 
 def placeOrder(request):
-    url = request.session['url']
     if 'user_id' not in request.session:
         return redirect('/logReg/')
     customer = User.objects.get(id=request.session['user_id'])
     if not customer.profile.address01:
-        return redirect('/profile/')
+        messages.error(request, 'Please update your address before checking out')
+        return redirect('/customer/profile/')
     orderNumber = Order.objects.validate()
     newOrder = Order.objects.create(
         orderNum=orderNumber,
@@ -97,7 +98,6 @@ def generateInvoice(user_id, order_id):
     for i in orderItems:
         rowCount.append(30)
     print(rowCount)
-   
 
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=letter)
@@ -135,13 +135,20 @@ def generateInvoice(user_id, order_id):
     return response
     
 def confirmOrder(request):
+    if 'user_id' not in request.session:
+        user = False
+        navOrders = False
     theOrder = Order.objects.get(id=request.session['order_id'])
+    navOrders = Order.objects.filter(customer_id=request.session['user_id'])
     user = User.objects.get(id=request.session['user_id'])
     cart = request.session['order_id']
+    if not navOrders:
+        navOrders = False
     context = {
         'theOrder': theOrder,
         'user': user,
         'cart': cart,
+        'navOrders': navOrders,
     }
     return render(request, 'confirmOrder.html', context)
 
@@ -150,7 +157,6 @@ def saveInvoice(request):
     order = Order.objects.get(id=request.session['order_id'])
     pdfContent = generateInvoice(user.id, order.id)
     theOrder = Order.objects.get(id=request.session['order_id'])
-    cart = request.session['order_id']
     # Save the PDF content using Django's file storage
     pdf_path = os.path.join('invoices', f'{order.orderNum}.pdf')
     pdf_file = ContentFile(pdfContent.getvalue())
@@ -168,3 +174,26 @@ def saveInvoice(request):
     theOrder = f'{theOrder.orderNum}'
     request.session['invoice'] = theOrder
     return redirect('/thankyou/')
+
+
+def myOrders(request):
+    if 'user_id' not in request.session:
+        return redirect('/logReg/')
+    user = User.objects.get(id=request.session['user_id'])
+    navOrders = Order.objects.filter(customer_id=request.session['user_id'])
+    invoices = Invoice.objects.filter(theCustomer_id=request.session['user_id'])
+    if not navOrders:
+        navOrders = False
+    context = {
+        'user': user,
+        'navOrders': navOrders,
+        'invoices': invoices,
+    }
+    return render(request, 'myOrders.html', context)
+
+def viewPdf(request, invoice_id):
+    pdf = get_object_or_404(Invoice, pk=invoice_id)
+    
+    # Open the PDF file and serve it as a response
+    response = FileResponse(pdf.pdf, content_type='application/pdf')
+    return response

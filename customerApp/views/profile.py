@@ -7,18 +7,23 @@ from customerApp.util import *
 def profile(request):
     if 'user_id' not in request.session:
         messages.error(request, "you need to be logged in to view this page")
+        navOrders = False
         return redirect('/logReg/')
     else:
         user = User.objects.get(id=request.session['user_id'])
+        navOrders = Order.objects.filter(customer_id=request.session['user_id'])
+        if not navOrders:
+            navOrders = False
         cart = request.session['cart']
         context = {
             'user': user,
             'cart': cart,
+            'navOrders': navOrders,
         }
         return render(request, 'profile.html', context)
     
 def updateProfile(request):
-    toUpdate = User.objects.get(user=request.session['user_id'])
+    toUpdate = User.objects.get(id=request.session['user_id'])
     toUpdate.profile.address01 = request.POST['address01']
     toUpdate.profile.address02 = request.POST['address02']
     toUpdate.profile.city = request.POST['city']

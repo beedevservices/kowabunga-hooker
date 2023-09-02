@@ -14,10 +14,15 @@ def index(request):
     products = Product.getAllProds()
     if 'user_id' not in request.session:
         user = False
+        navOrders = False
         categories = categories.filter(adultOnly=False)
         products = products.filter(adultOnly=False)
     if 'user_id' in request.session:
         user = User.objects.get(id=request.session['user_id'])
+        navOrders = Order.objects.filter(customer_id=request.session['user_id'])
+        print('no',navOrders)
+        if not navOrders:
+            navOrders = False
         isAdult = checkAge(user)
         print(isAdult)
         if isAdult == False:
@@ -34,6 +39,7 @@ def index(request):
         'cart': cart,
         'user': user,
         'url': url,
+        'navOrders': navOrders,
     }
     # print(context)
     # print(cart)
@@ -49,8 +55,12 @@ def viewProduct(request, prod_name):
     request.session['url'] = url
     if 'user_id' not in request.session:
         user = False
+        navOrders = False
     else:
         user = User.objects.get(id=request.session['user_id'])
+        navOrders = Order.objects.filter(customer_id=request.session['user_id'])
+        if not navOrders:
+            navOrders = False
     cart = request.session['cart']
     product = Product.objects.get(name=prod_name)
     categories = Category.objects.all().values()
@@ -66,6 +76,7 @@ def viewProduct(request, prod_name):
         'product': product,
         'categories': categories,
         'images': images,
+        'navOrders': navOrders
     }
     return render(request, 'viewProduct.html', context)
 

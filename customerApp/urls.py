@@ -10,9 +10,12 @@ urlpatterns = [
     path('reg/', views.reg),
     path('order/', views.placeOrder),
     path('profile/', views.profile),
+    path('profile/edit/', views.updateProfile),
+    path('myOrders/', views.myOrders),
     path('confirm/', views.confirmOrder),
     path('generateInvoice/<int:order_id>/', views.generateInvoice, name='invoice'),
     path('saveInvoice/', views.saveInvoice, name='saveInvoice'),
+    path('invoice/<int:invoice_id>/', views.viewPdf, name='viewInvoice'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

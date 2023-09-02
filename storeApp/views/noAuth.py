@@ -7,11 +7,13 @@ def logReg(request):
     url = request.session['url']
     if 'user_id' not in request.session:
         user = False
+        navOrders = False
         cart = request.session['cart']
         context = {
             'user': user,
             'url': url,
             'cart': cart,
+            'navOrders': navOrders,
         }
         return render(request, 'logReg.html', context)
     else:

@@ -6,6 +6,26 @@ import datetime
 import string
 import random
 
+statusOfOrder = [
+    ('New', 'Newly Placed'),
+    ('Pending', 'In discussion between Customer and Owner'),
+    ('In Progress', 'Item is being created'),
+    ('Order Items Created', 'All items in order have been created'),
+    ('Shipped', 'Item has been shipped'),
+    ('Delivered','Item has been delivered'),
+    ('Rejected','Order was Rejected'),
+    ('Returned', 'Order was Returned'),
+    ('Archived', 'Order was archived')
+]
+statusOfPay = [
+    ('New', 'New Order payment terms not set yet'),
+    ('Paid', 'Order is fully Paid for'),
+    ('Payment Plan', 'Order is on a payment plan that in still ongoing'),
+    ('Billed', 'Final Price determined and sent to customer'),
+    ('Unpaid', 'Order remains unpaid'),
+    ('On Hold', 'Order is on hold awaiting terms')
+]
+
 def genOrderCode():
     N = 4
     res01 = ''.join(random.choices(string.ascii_letters, k=N))
@@ -75,6 +95,8 @@ class Order(models.Model):
     customer = models.ForeignKey(User, related_name='theCustomer', on_delete=CASCADE)
     itemCount = models.IntegerField(blank=True, null=True)
     orderTotal = models.CharField(max_length=255, blank=True, null=True)
+    orderStatus = models.CharField(max_length=255, choices=statusOfOrder, default='New')
+    paymentStatus = models.CharField(max_length=255, choices=statusOfPay, default='New')
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
 
@@ -97,7 +119,7 @@ class OrderItem(models.Model):
 
 class Invoice(models.Model):
     theCustomer = models.ForeignKey(User, related_name='custOrder',on_delete=models.CASCADE)
-    cart = models.OneToOneField(Order, unique=True, on_delete=models.CASCADE)
+    cart = models.OneToOneField(Order, on_delete=models.CASCADE)
     orderDate = models.DateField(default=datetime.datetime.today)
     pdf = models.FileField(upload_to='invoices')
     createdAt = models.DateTimeField(auto_now_add=True)

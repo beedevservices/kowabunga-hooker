@@ -52,3 +52,38 @@ def cartTotal(prods, cart):
     else:
         theTotal = f'${sum}'
     return theTotal
+
+@register.filter(name='currentOrders')
+def currentOrders(orders):
+    # print('all cust order',orders)
+    currentOrders = []
+    for o in orders:
+        if o.orderStatus != 'New':
+            print('new', o.orderStatus, o.orderNum)
+            currentOrders.append(o)
+        if o.orderStatus == 'Pending':
+            currentOrders.append(o)
+        if o.orderStatus == 'In Progress':
+            currentOrders.append(o)
+        if o.orderStatus == 'Order Items Created':
+            currentOrders.append(o)
+        if o.orderStatus == 'Shipped':
+            currentOrders.append(o)
+    # print('all cust curr order',currentOrders)
+    return currentOrders
+
+@register.filter(name='finishedOrders')
+def finishedOrders(orders):
+    finishedOrders = []
+    for o in orders:
+        if o.orderStatus == 'Delivered':
+            print('delivered', o.orderNum)
+            finishedOrders.append(o)
+        if o.orderStatus == 'Rejected':
+            finishedOrders.append(o)
+        if o.orderStatus == 'Returned':
+            finishedOrders.append(o)
+        if o.orderStatus == 'Archived':
+            finishedOrders.append(o)
+    print('all cust fin order',finishedOrders)
+    return finishedOrders
